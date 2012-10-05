@@ -9,5 +9,10 @@ module Zero
     def self.call(env)
       new(Request.new(env)).render
     end
+
+    def initialize(request)
+      @response = Response.new
+      @request  = request
+    end
   end
 end
