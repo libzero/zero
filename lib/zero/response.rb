@@ -16,7 +16,7 @@ module Zero
     # builds the response for rack and checks for protocol errors
     # @return Array the rack response
     def response
-      [@code, @header, @body]
+      [@code, @header, [@body]]
     end
   end
 end
