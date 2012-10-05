@@ -6,7 +6,7 @@ module Zero
   # rack compatible controllers. It catches #call and creates a new instance
   # with the environment and calls #render on it.
   class Controller
-    def self << call(env)
+    def self.call(env)
       new(Request.new(env)).render
     end
   end
