@@ -11,8 +11,19 @@ module Zero
     end
 
     def initialize(request)
-      @response = Response.new
       @request  = request
+      @code     = 200
+      @header   = {}
+      @body     = ''
+    end
+
+    def response
+      render
+      [@code, @header, [@body]]
+    end
+
+    def render
+      raise NotImplementedError
     end
   end
 end
