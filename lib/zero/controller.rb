@@ -7,7 +7,7 @@ module Zero
   # with the environment and calls #render on it.
   class Controller
     def self.call(env)
-      new(Request.new(env)).render
+      new(Request.new(env)).response
     end
 
     def initialize(request)
@@ -23,7 +23,7 @@ module Zero
     end
 
     def render
-      raise NotImplementedError
+      raise NotImplementedError.new
     end
   end
 end
