@@ -17,5 +17,8 @@ Gem::Specification.new do |s|
 
   s.rubygems_version = '1.8.24'
 
-  s.add_runtime_dependency('rack')
+  s.add_dependency('rack')
+
+  s.add_development_dependency('thor')
+  s.add_development_dependency('rspec')
 end
