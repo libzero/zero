@@ -1,3 +1,6 @@
+require 'rack'
+require_relative 'rack_request'
+
 module Zero
   class Router
     # match for variables in routes

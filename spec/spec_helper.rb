@@ -1,4 +1,4 @@
-require 'zero'
+require 'zero/all'
 
 class SpecApp
   attr_reader :env
