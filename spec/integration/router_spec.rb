@@ -15,6 +15,12 @@ describe Zero::Router do
     app.should_receive(:call)
   end
 
+  context 'it recognizes root' do
+    let(:routes) { { '/' => app } }
+    let(:env) { generate_env('/') }
+    it('handles /') { subject }
+  end
+
   context 'a working route' do
     let(:routes) { { '/app' => app } }
     let(:env) { generate_env('/app') }
