@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors  = ['Gibheer']
   s.email    = 'gibheer@gmail.com'
   s.summary  = 'Event distribution and aggregation framework'
-  s.homepage = 'http://github.com/mbj/eventstorm'
+  s.homepage = 'http://github.com/gibheer/zero'
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
