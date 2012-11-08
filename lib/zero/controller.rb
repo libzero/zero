@@ -11,7 +11,7 @@ module Zero
     end
 
     # initialize the controller
-    # @param Request a request object
+    # @param request [Request] a request object
     def initialize(request)
       @request  = request
       @response = Rack::Response.new
