@@ -44,22 +44,22 @@ module Zero
       @method ||= @env[CONST_REQUEST_METHOD].downcase.to_sym
     end
     # is the method 'GET'?
-    # @return true if this is a get request
+    # @return [Boolean] true if this is a get request
     def get?;  method == :get;  end
     # is the method 'POST'?
-    # @return true if this is a post request
+    # @return [Boolean] true if this is a post request
     def post?; method == :post; end
     # is the method 'PUT'?
-    # @return true if this is a put request
+    # @return [Boolean] true if this is a put request
     def put?;  method == :put;  end
     # is the method 'DELETE'?
-    # @return true if this is a delete request
+    # @return [Boolean] true if this is a delete request
     def delete?; method == :delete; end
     # is the method 'HEAD'?
-    # @return true if this is a head request
+    # @return [Boolean] true if this is a head request
     def head?; method == :head; end
     # is the method 'PATCH'?
-    # @return true if this is a patch request
+    # @return [Boolean] true if this is a patch request
     def patch?; method == :patch; end
 
     private
