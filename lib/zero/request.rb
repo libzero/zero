@@ -55,7 +55,7 @@ module Zero
     def head?; @method == :head; end
     # is the method 'PATCH'?
     # @return true if this is a patch request
-    def head?; @method == :patch; end
+    def patch?; @method == :patch; end
 
     private
 
