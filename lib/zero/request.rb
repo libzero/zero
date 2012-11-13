@@ -10,6 +10,10 @@ module Zero
       @method = @env[CONST_REQUEST_METHOD].downcase.to_sym
     end
 
+    # get the environment
+    # @return [Hash] the environment hash
+    attr_reader :env
+
     # get the requested path
     # @return [String] returns the requested path
     def path
