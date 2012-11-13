@@ -17,13 +17,13 @@ describe Zero::Router do
 
   context 'it recognizes root' do
     let(:routes) { { '/' => app } }
-    let(:env) { generate_env('/') }
+    let(:env) { EnvGenerator.get('/') }
     it('handles /') { subject }
   end
 
   context 'a working route' do
     let(:routes) { { '/app' => app } }
-    let(:env) { generate_env('/app') }
+    let(:env) { EnvGenerator.get('/app') }
     it('takes a route') { subject }
   end
 
@@ -32,7 +32,7 @@ describe Zero::Router do
       { '/wrong'   => wrong_app,
         '/correct' => app }
     end
-    let(:env) { generate_env('/correct') }
+    let(:env) { EnvGenerator.get('/correct') }
     it("selects the correct from multiple routes") { subject }
   end
 
@@ -41,13 +41,13 @@ describe Zero::Router do
                      '/deep'         => wrong_app,
                      '/deep/wrong'   => wrong_app,
                      '/deep/correct' => app }} 
-    let(:env) { generate_env('/deep/correct') }
+    let(:env) { EnvGenerator.get('/deep/correct') }
     it("finds uses the deepest path first") { subject }
   end
 
   context 'converts parts of the url to parameters' do
     let(:routes) { { '/foo/:id' => app } }
-    let(:env) { generate_env('/foo/42') }
+    let(:env) { EnvGenerator.get('/foo/42') }
     it "should extract variables from the url" do
       subject
     end
