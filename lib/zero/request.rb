@@ -59,9 +59,17 @@ module Zero
 
     private
 
+    # constant for the content type key
+    # @api private
     CONST_CONTENT_TYPE   = 'CONTENT_TYPE'
+    # constant for the http accept key
+    # @api private
     CONST_HTTP_ACCEPT    = 'HTTP_ACCEPT'
+    # constant for the path info key
+    # @api private
     CONST_PATH_INFO      = 'PATH_INFO'
+    # constant for the request method key
+    # @api private
     CONST_REQUEST_METHOD = 'REQUEST_METHOD'
   end
 end
