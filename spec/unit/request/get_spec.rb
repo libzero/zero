@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Zero::Request do
+describe Zero::Request, '#get?' do
   subject { Zero::Request.new(env) }
 
   context "with a get request" do
