@@ -7,7 +7,6 @@ module Zero
     # create a new request object
     def initialize(env)
       @env = env
-      @method = @env[CONST_REQUEST_METHOD].downcase.to_sym
     end
 
     # get the environment
@@ -41,25 +40,27 @@ module Zero
 
     # get the method of the request
     # @return [Symbol] the symbol representation of the method
-    attr_reader :method
+    def method
+      @method ||= @env[CONST_REQUEST_METHOD].downcase.to_sym
+    end
     # is the method 'GET'?
     # @return true if this is a get request
-    def get?;  @method == :get;  end
+    def get?;  method == :get;  end
     # is the method 'POST'?
     # @return true if this is a post request
-    def post?; @method == :post; end
+    def post?; method == :post; end
     # is the method 'PUT'?
     # @return true if this is a put request
-    def put?;  @method == :put;  end
+    def put?;  method == :put;  end
     # is the method 'DELETE'?
     # @return true if this is a delete request
-    def delete?; @method == :delete; end
+    def delete?; method == :delete; end
     # is the method 'HEAD'?
     # @return true if this is a head request
-    def head?; @method == :head; end
+    def head?; method == :head; end
     # is the method 'PATCH'?
     # @return true if this is a patch request
-    def patch?; @method == :patch; end
+    def patch?; method == :patch; end
 
     private
 
