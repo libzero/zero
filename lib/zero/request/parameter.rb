@@ -8,9 +8,13 @@ module Zero
     # This class holds all parameters available in the rack environment, split
     # on query and payload parameters.
     class Parameter
+      # they key for the query string
       ENV_KEY_QUERY   = 'QUERY_STRING'
+      # the key for the payload
       ENV_KEY_PAYLOAD = 'rack.input'     
+      # the key for the content type
       ENV_KEY_CONTENT_TYPE = 'CONTENT_TYPE'
+      # all content types which used for using the body as a parameter input
       PAYLOAD_CONTENT_TYPES = [
         'application/x-www-form-urlencoded',
         'multipart/form-data'
