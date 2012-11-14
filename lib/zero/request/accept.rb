@@ -7,7 +7,7 @@ module Zero
       MEDIA_PARAM_SEPERATOR = ';'
       MEDIA_QUALITY_REGEX   = /q=[01]\./
 
-      def self.media_map(map)
+      def self.map=(map)
         @@map = map
       end
 
