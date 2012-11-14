@@ -7,3 +7,7 @@ group :guard do
   gem 'guard-bundler'
   gem 'guard-rspec'
 end
+
+group :test do
+  gem 'thor'
+end
