@@ -20,6 +20,8 @@ module Zero
       @path ||= @env[CONST_PATH_INFO]
     end
 
+    # return all information about the client
+    # @return [Client] an information object about the client
     def client
       @client ||= Request::Client.new(@env)
     end
