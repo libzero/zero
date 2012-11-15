@@ -1,4 +1,5 @@
 require_relative 'request/accept'
+require_relative 'request/client'
 require_relative 'request/parameter'
 
 module Zero
@@ -17,6 +18,10 @@ module Zero
     # @return [String] returns the requested path
     def path
       @path ||= @env[CONST_PATH_INFO]
+    end
+
+    def client
+      @client ||= Request::Client.new(@env)
     end
 
     # get an object representing the parameters of the request
