@@ -1,6 +1,7 @@
 require_relative 'request/accept'
 require_relative 'request/client'
 require_relative 'request/parameter'
+require_relative 'request/server'
 
 module Zero
   # This class wraps around a rack environment for easier access to all data.
@@ -24,6 +25,12 @@ module Zero
     # @return [Client] an information object about the client
     def client
       @client ||= Request::Client.new(@env)
+    end
+
+    # get the information on the server
+    # @return [Server] information on the running server
+    def server
+      @server ||= Request::Server.new(@env)
     end
 
     # get an object representing the parameters of the request
