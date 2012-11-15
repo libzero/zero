@@ -13,11 +13,6 @@ describe Zero::Request::Accept, '#preferred' do
   let(:lower_accept)   { [lower_quality, default].join(',') }
   
   context 'without mapping' do
-    before :each do
-      # reset the mapping to nothing
-      Zero::Request::Accept.map = {}
-    end
-
     it { subject.new(html).preferred.should           == html }
     it { subject.new(json).preferred.should           == json }
     it { subject.new(simple_accept).preferred.should  == html }
@@ -29,6 +24,10 @@ describe Zero::Request::Accept, '#preferred' do
   context 'with mapping' do
     before :all do
       Zero::Request::Accept.map = {'text/html' => 'html'}
+    end
+
+    after :all do
+      Zero::Request::Accept.map = {}
     end
 
     it { subject.new(html).preferred.should == 'html' }
