@@ -17,7 +17,11 @@ module Zero
 
       # create a new accept object
       def initialize(accept_string)
-        @types = parse_media_types(accept_string)
+        if accept_string.nil?
+          @types = []
+        else
+          @types = parse_media_types(accept_string)
+        end
       end
 
       # return the preferred type
