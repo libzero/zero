@@ -76,8 +76,8 @@ module Zero
     # @api private
     # @param string [String] the original type name
     # @return [String] the shorter representation or the original
-    def transform(string)
-      return map[string] if map.has_key?(string)
+    def self.transform(string)
+      return type_map[string] if type_map.has_key?(string)
       string
     end
 
