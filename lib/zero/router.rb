@@ -1,6 +1,3 @@
-require 'rack'
-require_relative 'rack_request'
-
 module Zero
   class Router
     # match for variables in routes
@@ -18,7 +15,7 @@ module Zero
     end
 
     def call(env)
-      request = Rack::Request.new(env)
+      request = Zero::Request.create(env)
       @routes.each do |route, target|
         match = route.match(request.path)
         if match
