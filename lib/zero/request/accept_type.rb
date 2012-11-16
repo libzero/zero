@@ -6,7 +6,7 @@ module Zero
       MEDIA_PARAM_SEPERATOR = ';'
       MEDIA_QUALITY_REGEX   = /q=[01]\./
 
-        # create a new instance of AcceptType
+      # create a new instance of AcceptType
       def initialize(string)
         if string.nil?
           @elements = []
