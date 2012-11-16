@@ -23,14 +23,14 @@ module Zero
 
       # create a new accept object
       def initialize(environment)
-        @accept_types = AcceptType.new(environment[KEY_HTTP_ACCEPT])
-        @accept_language = AcceptType.new(environment[KEY_HTTP_ACCEPT_LANGUAGE])
-        @accept_encoding = AcceptType.new(environment[KEY_HTTP_ACCEPT_ENCODING])
+        @types = AcceptType.new(environment[KEY_HTTP_ACCEPT])
+        @language = AcceptType.new(environment[KEY_HTTP_ACCEPT_LANGUAGE])
+        @encoding = AcceptType.new(environment[KEY_HTTP_ACCEPT_ENCODING])
       end
 
-      attr_reader :accept_types
-      attr_reader :accept_language
-      attr_reader :accept_encoding
+      attr_reader :types
+      attr_reader :language
+      attr_reader :encoding
     end
   end
 end
