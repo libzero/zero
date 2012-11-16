@@ -3,7 +3,7 @@ require 'zero/all'
 class SpecApp
   attr_reader :env
 
-  def call(env)
+  def self.call(env)
     @env = env
     return [200, {'Content-Type' => 'text/html'}, ['success']]
   end
