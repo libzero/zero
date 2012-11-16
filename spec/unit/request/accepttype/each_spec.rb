@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Zero::Request::Accept, '#each' do
-  subject { Zero::Request::Accept.new(types) }
+describe Zero::Request::AcceptType, '#each' do
+  subject { Zero::Request::AcceptType.new(types) }
   let(:html) { 'text/html' }
   let(:json) { 'application/json' }
   let(:types) { [html, json].join(',') }
