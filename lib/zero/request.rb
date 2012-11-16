@@ -54,7 +54,7 @@ module Zero
 
     # get the media types
     # @return [Accept] on Accept object managing all types and their order
-    def media_types
+    def accept
       @accept ||= Request::Accept.new(@env)
     end
 
