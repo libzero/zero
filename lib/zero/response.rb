@@ -3,7 +3,17 @@ module Zero
   # This is the representation of a response
   #
   class Response
-    attr_accessor :status, :header, :body
+    attr_reader :status
+    attr_accessor :header, :body
+
+    # Sets the status.
+    # Also converts every input directly to an integer
+    #
+    # @param [Integer] status
+    #
+    def status=(status)
+      @status = status.to_i
+    end
 
     # Returns the data of the response as an array:
     # [status, header, body]

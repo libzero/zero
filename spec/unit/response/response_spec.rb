@@ -15,5 +15,15 @@ describe Zero::Response, '#finish' do
     value[1].should eq({})  # Headers
     value[2].should eq([])  # Body
   end
+end
 
+describe Zero::Response, '#status' do
+  it "must return the status always as an integer" do
+
+    subject.status = "foobar"
+    subject.status.should eq(0)
+
+    subject.status = 240.5
+    subject.status.should eq(240)
+  end
 end
