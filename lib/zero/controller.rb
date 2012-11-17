@@ -7,7 +7,7 @@ module Zero
   class Controller
     # initialize a new instance of the controller and call response on it
     def self.call(env)
-      new(Rack::Request.new(env)).response
+      new(Zero::Request.new(env)).response
     end
 
     # initialize the controller
