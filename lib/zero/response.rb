@@ -6,6 +6,13 @@ module Zero
     attr_reader :status
     attr_accessor :header, :body
 
+    # Construtor
+    # Sets default status code to 200.
+    #
+    def initialize
+      @status = 200
+    end
+
     # Sets the status.
     # Also converts every input directly to an integer
     #
