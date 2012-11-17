@@ -14,30 +14,32 @@ module Zero
   # The call to #render will return the String representation of the template
   # with all data given.
   class Renderer
-    # set a base path for template search
-    # @param path [String] the path to the template base dir
-    def self.template_path=(path)
-      @@path = path + '/'
-    end
+    class << self
+      # set a base path for template search
+      # @param path [String] the path to the template base dir
+      def template_path=(path)
+        @@path = path + '/'
+      end
 
-    # save a mapping hash for the type
-    #
-    # With that it is possible to map long and complex contant types to simpler
-    # representations. These get then used in the finding process for the best
-    # fitting template.
-    #
-    # @example
-    #   Zero::Renderer.map = {'text/html' => 'html'}
-    #
-    # @param map [Hash] maps the content type to a simple representation
-    def self.type_map=(map)
-      @@map = map
-    end
+      # save a mapping hash for the type
+      #
+      # With that it is possible to map long and complex contant types to simpler
+      # representations. These get then used in the finding process for the best
+      # fitting template.
+      #
+      # @example
+      #   Zero::Renderer.map = {'text/html' => 'html'}
+      #
+      # @param map [Hash] maps the content type to a simple representation
+      def type_map=(map)
+        @@map = map
+      end
 
-    # returns the type map
-    # @return [Hash] the mapping for types
-    def self.type_map
-      @@map ||= {}
+      # returns the type map
+      # @return [Hash] the mapping for types
+      def type_map
+        @@map ||= {}
+      end
     end
 
     # take the path and render the template within the context
