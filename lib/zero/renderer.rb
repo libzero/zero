@@ -74,6 +74,12 @@ module Zero
       raise FileNotFoundError.new("Template '#{template_path}' not found!")
     end
 
+    # @see transform
+    # @api private
+    def transform(string)
+      self.class.transform(string)
+    end
+
     # transform a type into a simpler representation
     # @api private
     # @param string [String] the original type name
