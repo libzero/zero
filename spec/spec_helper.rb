@@ -1,6 +1,11 @@
 require 'rack'
 require 'zero/all'
 
+class SpecController < Zero::Controller
+  def process; end
+  def render; @response = [200, {'Content-Type' => 'text/html'}, ['foo']]; end
+end
+
 class SpecApp
   attr_reader :env
 
