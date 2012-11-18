@@ -36,3 +36,9 @@ describe Zero::Response, '#header' do
     subject.header.should eq({})
   end
 end
+
+describe Zero::Response, '#body' do
+  it "must return an empty array, if no body was set" do
+    subject.body.should eq([])
+  end
+end

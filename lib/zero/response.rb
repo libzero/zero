@@ -12,6 +12,7 @@ module Zero
     def initialize
       @status = 200
       @header = {}
+      @body   = []
     end
 
     # Sets the status.
@@ -27,7 +28,7 @@ module Zero
     # [status, header, body]
     # to be usable by any webserver
     #
-    # @return Array
+    # @return [Array]
     #
     def to_a()
       [@status, @header, @body]
