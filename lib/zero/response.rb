@@ -6,7 +6,7 @@ module Zero
     attr_reader :status
     attr_accessor :header, :body
 
-    # Construtor
+    # Constructor
     # Sets default status code to 200.
     #
     def initialize
@@ -31,6 +31,10 @@ module Zero
     # @return [Array]
     #
     def to_a()
+      # TODO Remove content length and body, on certain status codes
+      # TODO Set content length, if not already set
+      # TODO Set content type, if not already set
+
       [@status, @header, @body]
     end
 
