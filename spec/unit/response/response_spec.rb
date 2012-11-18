@@ -30,3 +30,9 @@ describe Zero::Response, '#status' do
     subject.status.should eq(200)
   end
 end
+
+describe Zero::Response, '#header' do
+  it "must return an empty hash, if no header was set" do
+    subject.header.should eq({})
+  end
+end

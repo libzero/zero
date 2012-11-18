@@ -11,6 +11,7 @@ module Zero
     #
     def initialize
       @status = 200
+      @header = {}
     end
 
     # Sets the status.
