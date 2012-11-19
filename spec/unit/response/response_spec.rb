@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Zero::Response do
   subject { Zero::Response.new() }
 
-  describe '#finish' do
+  describe '#to_a' do
     it "returns an array within status header and body" do
       subject.status = 200
       subject.header = {}
