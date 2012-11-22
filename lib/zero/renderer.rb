@@ -1,98 +1,85 @@
 module Zero
-  class FileNotFoundError < IOError; end
-  # This class helps with rendering of content.
+  # the base renderer for getting render containers
   #
-  # The purpose of this class is to render templates. All variables pushed into
-  # the renderer should be already processed, so that the raw data can be used.
+  # This class handles templates and render coontainers, which can be used for
+  # the actual rendering.
   #
-  # The workflow of this class is like the following.
+  # To use this renderer you have to give it a template path and optionally
+  # a map of shorthand type descriptions to fully types. This will then be used
+  # to extend the internal map of templates to possible formats in a way, that
+  # you will be able to answer xhtml and html requests with the same template.
   #
-  # * setup the type mapping
-  # * create a new instance of the class to prepare rendering
-  # * call #render to process the template
+  # When the object is initialized and you are sure, everything is loaded, call
+  # #read_template_path! and the template tree will be built. Without this step,
+  # you will probably don't get any output.
   #
-  # The call to #render will return the String representation of the template
-  # with all data given.
+  # After the setup, the renderer can be used to build render containers, which
+  # then can be used to actually render something.
   class Renderer
-    class << self
-      # set a base path for template search
-      # @param path [String] the path to the template base dir
-      def template_path=(path)
-        @@path = path + '/'
-      end
-
-      # save a mapping hash for the type
-      #
-      # With that it is possible to map long and complex contant types to simpler
-      # representations. These get then used in the finding process for the best
-      # fitting template.
-      #
-      # @example
-      #   Zero::Renderer.map = {'text/html' => 'html'}
-      #
-      # @param map [Hash] maps the content type to a simple representation
-      def type_map=(map)
-        @@map = map
-      end
-
-      # returns the type map
-      # @return [Hash] the mapping for types
-      def type_map
-        @@map ||= {}
-      end
+    # initializes a new Renderer
+    #
+    # This method takes a path to the base template directory and a type map.
+    # This type map is used to extend the possible renderings for different
+    # types, which the clients sends.
+    #
+    # @example create a simple renderer
+    #   Renderer.new('app/templates')
+    #
+    # @example create a renderer with a small map
+    #   Renderer.new('app', {
+    #     'html' => ['text/html', 'application/html+xml'],
+    #     'json' => ['application/json', 'application/aweomse+json']
+    #   })
+    #
+    # @param [String] a string to templates
+    def initialize(template_path, type_map = {})
+      @template_path = template_path + '/'
+      @type_map = type_map
     end
 
-    # take the path and render the template within the context
-    # @param path [String] the relative path to the template
-    # @param context [Object] the object to process on
-    # @param accept_types
-    def initialize(path, context, accept_types)
-      accept_types ||= Request::Accept.new('text/html')
-      @path    = find_template(path, accept_types)
-      @context = context
-    end
+    # returns the hash of type conversions
+    # @return [Hash] type conversion
+    attr_reader :type_map
+    # get the path to the templates
+    # @return [String] the base template path
+    attr_reader :template_path
+    # get the tree of templates
+    # @api private
+    # @return [Hash] the template tree
+    attr_reader :templates
 
-    # render the template within the context
-    # @return [String] the rendered template
-    def render
-      Tilt.new(@path).render(@context)
+    # load the template tree
+    #
+    # This method gets all templates in the `template_path` and builds an
+    # internal tree structure, where templates and types direct the request to
+    # the wanted template.
+    def read_template_path!
+      @templates = Hash.new do |hash, key|
+        subtree = {}
+        search_files(key).each do |file|
+          parts = file.split('.')
+          read_type(parts[2]).each do |type|
+            subtree[type] = file
+          end
+        end
+        hash[key] = subtree
+      end
+      self
     end
 
     private
 
-    # check if the template does exist
-    # @api private
-    # @param template_path [String] the relative path to the template
-    # @param types [Array] a sorted list of types to search for
-    # @return [String] a file name to use
-    def find_template(template_path, types)
-      types.each do |type|
-        Dir[@@path + template_path + '.' + transform(type) + '.*'].each do |file|
-          return file
-        end
-      end
-      raise FileNotFoundError.new("Template '#{template_path}' not found!")
+    def search_files(template_name)
+      Dir[template_path + template_name + '**/*.*']
     end
 
-    # @see transform
-    # @api private
-    def transform(string)
-      self.class.transform(string)
+    def read_type(short_notation)
+      to_type_list(type_map[short_notation] || short_notation)
     end
 
-    # transform a type into a simpler representation
-    # @api private
-    # @param string [String] the original type name
-    # @return [String] the shorter representation or the original
-    def self.transform(string)
-      return type_map[string] if type_map.has_key?(string)
-      string
-    end
-
-    # an alias to Renderer.map
-    # @api private
-    def map
-      self.class.map
+    def to_type_list(original_map)
+      return original_map if original_map.respond_to?(:each)
+      [original_map]
     end
   end
 end
