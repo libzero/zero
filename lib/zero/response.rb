@@ -38,5 +38,12 @@ module Zero
       [@status, @header, @body]
     end
 
+    # Sets the content length header to the current length of the body
+    # Also creates one, if it does not exists
+    #
+    def content_length
+      header['Content-Length'] = 0
+    end
+
   end
 end

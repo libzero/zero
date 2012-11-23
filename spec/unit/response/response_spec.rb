@@ -16,6 +16,9 @@ describe Zero::Response do
       value[1].should eq({})  # Headers
       value[2].should eq([])  # Body
     end
+
+    it "returns the content length in the header" do
+    end
   end
 
   describe '#status' do
@@ -41,6 +44,14 @@ describe Zero::Response do
   describe '#body' do
     it "must return an empty array, if no body was set" do
       subject.body.should eq([])
+    end
+  end
+
+  describe '#content_length' do
+    it "sets the content_length to 0, if there is no content" do
+      subject.content_length
+
+      subject.header['Content-Length'].should eq(0)
     end
   end
 
