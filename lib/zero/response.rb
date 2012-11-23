@@ -34,7 +34,8 @@ module Zero
       # TODO Remove content length and body, on certain status codes
       # Set content length, if not already set
       content_length unless header.has_key? 'Content-Length'
-      # TODO Set content type, if not already set
+      # Set content type, if not already set
+      content_type 'text/html' unless header.has_key? 'Content-Type'
 
       [status, header, body]
     end

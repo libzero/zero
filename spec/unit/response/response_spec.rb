@@ -14,7 +14,7 @@ describe Zero::Response do
 
       value.should be_an_instance_of(Array)
       value[0].should eq(200) # Status code
-      value[1].should eq({"Content-Length" => 0})  # Headers
+      value[1].should be_an_instance_of(Hash)  # Headers
       value[2].should eq([])  # Body
     end
 
@@ -22,7 +22,7 @@ describe Zero::Response do
       subject.body = ['foobar']
       value = subject.to_a
 
-      value[1].should eq({'Content-Length' => 6})  # Headers
+      value[1]['Content-Length'].should eq(6)  # Headers
     end
 
     it "does not fix the Content-Length, if it's already set" do
@@ -30,7 +30,20 @@ describe Zero::Response do
       subject.header = {'Content-Length' => 3}
       value = subject.to_a
 
-      value[1].should eq({'Content-Length' => 3})  # Headers
+      value[1]['Content-Length'].should eq(3)  # Headers
+    end
+
+    it "returns the Content-Type in the header" do
+      subject.header = {'Content-Type' => 'application/json'}
+      value = subject.to_a
+
+      value[1]['Content-Type'].should eq('application/json')  # Headers
+    end
+
+    it "returns as default 'text/html' as Content-Type" do
+      value = subject.to_a
+
+      value[1]['Content-Type'].should eq('text/html')  # Headers
     end
   end
 
