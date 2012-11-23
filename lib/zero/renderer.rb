@@ -55,14 +55,10 @@ module Zero
     # the wanted template.
     def read_template_path!
       @templates = Hash.new do |hash, key|
-        subtree = {}
-        search_files(key).each do |file|
-          parts = file.split('.')
-          read_type(parts[2]).each do |type|
-            subtree[type] = file
-          end
-        end
-        hash[key] = subtree
+        # TODO this is just ugly
+        result = []
+        search_files(key).each { |file| fill_template_type_map(result, file) }
+        Hash[result]
       end
       self
     end
@@ -71,6 +67,13 @@ module Zero
 
     def search_files(template_name)
       Dir[template_path + template_name + '**/*.*']
+    end
+
+    def fill_template_type_map(dataset, file)
+      parts = file.split('.')
+      read_type(parts[2]).each do |type|
+        dataset << [type, file]
+      end
     end
 
     def read_type(short_notation)
