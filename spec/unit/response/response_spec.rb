@@ -19,11 +19,18 @@ describe Zero::Response do
     end
 
     it "returns the content length in the header" do
-      subject.body   = ['foobar']
-
+      subject.body = ['foobar']
       value = subject.to_a
 
       value[1].should eq({'Content-Length' => 6})  # Headers
+    end
+
+    it "does not fix the Content-Length, if it's already set" do
+      subject.body = ['foobar']
+      subject.header = {'Content-Length' => 3}
+      value = subject.to_a
+
+      value[1].should eq({'Content-Length' => 3})  # Headers
     end
   end
 
