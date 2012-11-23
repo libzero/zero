@@ -35,7 +35,7 @@ module Zero
       # TODO Set content length, if not already set
       # TODO Set content type, if not already set
 
-      [@status, @header, @body]
+      [status, header, body]
     end
 
     # Sets the content length header to the current length of the body
