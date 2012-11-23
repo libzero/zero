@@ -33,6 +33,7 @@ module Zero
     def to_a()
       # TODO Remove content length and body, on certain status codes
       # TODO Set content length, if not already set
+      content_length
       # TODO Set content type, if not already set
 
       [status, header, body]

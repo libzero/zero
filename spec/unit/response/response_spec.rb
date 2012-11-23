@@ -14,11 +14,16 @@ describe Zero::Response do
 
       value.should be_an_instance_of(Array)
       value[0].should eq(200) # Status code
-      value[1].should eq({})  # Headers
+      value[1].should eq({"Content-Length" => 0})  # Headers
       value[2].should eq([])  # Body
     end
 
     it "returns the content length in the header" do
+      subject.body   = ['foobar']
+
+      value = subject.to_a
+
+      value[1].should eq({'Content-Length' => 6})  # Headers
     end
   end
 
