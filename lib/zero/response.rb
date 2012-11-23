@@ -30,12 +30,18 @@ module Zero
     #
     # @return [Array]
     #
-    def to_a()
+    def to_a
       # TODO Remove content length and body, on certain status codes
-      # Set content length, if not already set
-      content_length unless header.has_key? 'Content-Length'
-      # Set content type, if not already set
-      content_type 'text/html' unless header.has_key? 'Content-Type'
+      if status == 204
+        header.delete('Content-Length')
+        header.delete('Content-Type')
+        body = []
+      else
+        # Set content length, if not already set
+        content_length unless header.has_key? 'Content-Length'
+        # Set content type, if not already set
+        content_type 'text/html' unless header.has_key? 'Content-Type'
+      end
 
       [status, header, body]
     end

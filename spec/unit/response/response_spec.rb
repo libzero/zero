@@ -45,6 +45,17 @@ describe Zero::Response do
 
       value[1]['Content-Type'].should eq('text/html')  # Headers
     end
+
+    it "removes Content-Type, Content-Length and body on status code 204" do
+      subject.body.push '"foobar"'
+      subject.content_type 'application/json'
+      subject.header['Content-Length'] = 8
+
+      subject.status = 204
+      value = subject.to_a
+
+      value[1].should eq({})  # Headers
+    end
   end
 
   describe '#status' do
