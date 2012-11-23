@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('thor')
   s.add_development_dependency('rack')
   s.add_development_dependency('rspec')
+  s.add_development_dependency('simplecov')
 end

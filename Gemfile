@@ -10,4 +10,5 @@ end
 
 group :test do
   gem 'thor'
+  gem 'simplecov'
 end
