@@ -46,5 +46,12 @@ module Zero
       header['Content-Length'] = body.join.bytesize
     end
 
+    # Sets the content type to the given value
+    # Also creates it, if it does not exists
+    #
+    def content_type(value)
+      header['Content-Type'] = value
+    end
+
   end
 end

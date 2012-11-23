@@ -61,24 +61,32 @@ describe Zero::Response do
   end
 
   describe '#content_length' do
-    it "sets the content_length to 0, if there is no content" do
+    it "sets the Content-Length to 0, if there is no content" do
       subject.content_length
 
       subject.header['Content-Length'].should eq(0)
     end
 
-    it "sets the content_length to the size of the message body" do
+    it "sets the Content-Length to the size of the message body" do
       subject.body = ['foo', 'bar']
       subject.content_length
 
       subject.header['Content-Length'].should eq(6)
     end
 
-     it "sets the content_length to the bytesize of the message body" do
+     it "sets the Content-Length to the bytesize of the message body" do
       subject.body = ['föö', 'bär']
       subject.content_length
 
       subject.header['Content-Length'].should eq(9)
+    end
+  end
+
+  describe '#content_type' do
+    it "sets the Content-Type to the given value" do
+      subject.content_type 'application/json'
+
+      subject.header['Content-Type'].should eq('application/json')
     end
   end
 
