@@ -42,7 +42,7 @@ module Zero
     # Also creates one, if it does not exists
     #
     def content_length
-      header['Content-Length'] = body.join.length
+      header['Content-Length'] = body.join.bytesize
     end
 
   end

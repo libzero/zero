@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'spec_helper'
 
 describe Zero::Response do
@@ -59,6 +60,13 @@ describe Zero::Response do
       subject.content_length
 
       subject.header['Content-Length'].should eq(6)
+    end
+
+     it "sets the content_length to the bytesize of the message body" do
+      subject.body = ['föö', 'bär']
+      subject.content_length
+
+      subject.header['Content-Length'].should eq(9)
     end
   end
 
