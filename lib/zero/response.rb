@@ -42,7 +42,7 @@ module Zero
     # Also creates one, if it does not exists
     #
     def content_length
-      header['Content-Length'] = 0
+      header['Content-Length'] = body.join.length
     end
 
   end

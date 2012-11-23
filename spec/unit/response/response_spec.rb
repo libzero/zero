@@ -53,6 +53,13 @@ describe Zero::Response do
 
       subject.header['Content-Length'].should eq(0)
     end
+
+    it "sets the content_length to the size of the message body" do
+      subject.body = ['foo', 'bar']
+      subject.content_length
+
+      subject.header['Content-Length'].should eq(6)
+    end
   end
 
 end
