@@ -7,7 +7,7 @@ module Zero
   class Controller
     # initialize a new instance of the controller and call response on it
     def self.call(env)
-      new(Rack::Request.new(env)).response
+      new(Zero::Request.new(env)).response
     end
 
     # initialize the controller
@@ -20,7 +20,17 @@ module Zero
     # build the response and return it
     # @return Response a rack conform response
     def response
-      raise NotImplementedError.new("Not Implemented in ${__FILE__}")
+      process if respond_to?(:process)
+      render
+      @response
+    end
+
+    def process
+      raise NotImplementedError.new("'render' not implemented in #{self.class}")
+    end
+
+    def process
+      raise NotImplementedError.new("'render' not implemented in #{self.class}")
     end
   end
 end
