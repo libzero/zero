@@ -22,15 +22,15 @@ describe Zero::Response do
       subject.body = ['foobar']
       value = subject.to_a
 
-      value[1]['Content-Length'].should eq(6)  # Headers
+      value[1]['Content-Length'].should eq('6')  # Headers
     end
 
     it "does not fix the Content-Length, if it's already set" do
       subject.body = ['foobar']
-      subject.header = {'Content-Length' => 3}
+      subject.header = {'Content-Length' => '3'}
       value = subject.to_a
 
-      value[1]['Content-Length'].should eq(3)  # Headers
+      value[1]['Content-Length'].should eq('3')  # Headers
     end
 
     it "returns the Content-Type in the header" do
@@ -96,24 +96,24 @@ describe Zero::Response do
   end
 
   describe '#content_length' do
-    it "sets the Content-Length to 0, if there is no content" do
+    it "sets the Content-Length to '0', if there is no content" do
       subject.content_length
 
-      subject.header['Content-Length'].should eq(0)
+      subject.header['Content-Length'].should eq('0')
     end
 
     it "sets the Content-Length to the size of the message body" do
       subject.body = ['foo', 'bar']
       subject.content_length
 
-      subject.header['Content-Length'].should eq(6)
+      subject.header['Content-Length'].should eq('6')
     end
 
      it "sets the Content-Length to the bytesize of the message body" do
       subject.body = ['föö', 'bär']
       subject.content_length
 
-      subject.header['Content-Length'].should eq(9)
+      subject.header['Content-Length'].should eq('9')
     end
   end
 

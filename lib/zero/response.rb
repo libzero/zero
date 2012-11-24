@@ -55,7 +55,7 @@ module Zero
     # Also creates one, if it does not exists
     #
     def content_length
-      self.header['Content-Length'] = body.join.bytesize
+      self.header['Content-Length'] = body.join.bytesize.to_s
     end
 
     # Sets the content type header to the given value
