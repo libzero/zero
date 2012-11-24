@@ -48,7 +48,7 @@ describe Zero::Response do
 
     it "removes Content-Type, Content-Length and body on status code 204" do
       subject.body.push '"foobar"'
-      subject.content_type 'application/json'
+      subject.content_type = 'application/json'
       subject.header['Content-Length'] = 8
 
       subject.status = 204
@@ -59,7 +59,7 @@ describe Zero::Response do
 
     it "removes Content-Type, Content-Length and body on status code 304" do
       subject.body.push '"foobar"'
-      subject.content_type 'application/json'
+      subject.content_type = 'application/json'
       subject.header['Content-Length'] = 8
 
       subject.status = 304
@@ -119,7 +119,7 @@ describe Zero::Response do
 
   describe '#content_type' do
     it "sets the Content-Type to the given value" do
-      subject.content_type 'application/json'
+      subject.content_type = 'application/json'
 
       subject.header['Content-Type'].should eq('application/json')
     end

@@ -40,7 +40,7 @@ module Zero
         # Set content length, if not already set
         content_length unless header.has_key? 'Content-Length'
         # Set content type, if not already set
-        content_type 'text/html' unless header.has_key? 'Content-Type'
+        self.content_type = 'text/html' unless header.has_key? 'Content-Type'
       end
 
       [status, header, body]
@@ -56,7 +56,7 @@ module Zero
     # Sets the content type to the given value
     # Also creates it, if it does not exists
     #
-    def content_type(value)
+    def content_type=(value)
       self.header['Content-Type'] = value
     end
 
