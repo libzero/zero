@@ -16,9 +16,9 @@ module Zero
     end
 
     # Sets the status.
-    # Also converts every input directly to an integer
+    # Also converts every input directly to an integer.
     #
-    # @param [Integer] status
+    # @param [Integer] status The status code
     #
     def status=(status)
       @status = status.to_i
@@ -26,9 +26,14 @@ module Zero
 
     # Returns the data of the response as an array:
     # [status, header, body]
-    # to be usable by any webserver
+    # to be usable by any webserver.
     #
-    # @return [Array]
+    # Sets the Content-Type to 'text/html', if it's not already set.
+    # Sets the Content-Length, if it's not already set. (Won't fix wrong
+    # lengths!)
+    # Removes Content-Type, Content-Length and body on status code 204 and 304.
+    #
+    # @return [Array] Usable by webservers
     #
     def to_a
       # Remove content length and body, on status 204 and 304
@@ -53,8 +58,10 @@ module Zero
       self.header['Content-Length'] = body.join.bytesize
     end
 
-    # Sets the content type to the given value
+    # Sets the content type header to the given value
     # Also creates it, if it does not exists
+    #
+    # @param [String] value Content-Type tp set
     #
     def content_type=(value)
       self.header['Content-Type'] = value
