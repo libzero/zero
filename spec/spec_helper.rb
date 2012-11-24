@@ -1,8 +1,7 @@
-unless RUBY_ENGINE == 'rbx' then
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter '_spec.rb'
-  end
+require 'simplecov'
+SimpleCov.start do
+  add_filter '_spec.rb'
+  add_filter 'spec_helper.rb'
 end
 
 require 'rack'
