@@ -31,8 +31,8 @@ module Zero
     # @return [Array]
     #
     def to_a
-      # TODO Remove content length and body, on certain status codes
-      if status == 204
+      # Remove content length and body, on status 204 and 304
+      if status == 204 or status == 304
         header.delete('Content-Length')
         header.delete('Content-Type')
         self.body = []
