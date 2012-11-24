@@ -35,7 +35,7 @@ module Zero
       if status == 204
         header.delete('Content-Length')
         header.delete('Content-Type')
-        body = []
+        self.body = []
       else
         # Set content length, if not already set
         content_length unless header.has_key? 'Content-Length'
@@ -50,14 +50,14 @@ module Zero
     # Also creates one, if it does not exists
     #
     def content_length
-      header['Content-Length'] = body.join.bytesize
+      self.header['Content-Length'] = body.join.bytesize
     end
 
     # Sets the content type to the given value
     # Also creates it, if it does not exists
     #
     def content_type(value)
-      header['Content-Type'] = value
+      self.header['Content-Type'] = value
     end
 
   end
