@@ -31,7 +31,8 @@ module Zero
     #     'json' => ['application/json', 'application/aweomse+json']
     #   })
     #
-    # @param [String] a string to templates
+    # @param template_path [String] a string to templates
+    # @param type_map [Hash] a map of simple types to complex ones
     def initialize(template_path, type_map = {})
       @template_path = template_path + '/'
       @type_map = type_map
@@ -53,6 +54,7 @@ module Zero
     # This method gets all templates in the `template_path` and builds an
     # internal tree structure, where templates and types direct the request to
     # the wanted template.
+    # @return [Self] returns the object
     def read_template_path!
       @templates = Hash.new do |hash, key|
         # TODO this is just ugly
@@ -65,10 +67,18 @@ module Zero
 
     private
 
+    # search in `template_path` for templates beginning with `template_name`
+    # @api private
+    # @param template_name [String] the name of the template
+    # @return [#each] a list of all templates found
     def search_files(template_name)
       Dir[template_path + template_name + '**/*.*']
     end
 
+    # fill the `datamap` with all variants of files and types found
+    # @api private
+    # @param dataset [Hash] the hash to fill with values
+    # @param file [String] a filename which will be used to fill the hash
     def fill_template_type_map(dataset, file)
       parts = file.split('.')
       read_type(parts[2]).each do |type|
@@ -76,10 +86,19 @@ module Zero
       end
     end
 
+    # gets the type information from a file and converts it to an array of
+    # possible matching types
+    # @api private
+    # @param short_notation [String] a short notation of a type, like `html`
+    # @return [Array] a list of matching types, like `text/html`
     def read_type(short_notation)
       to_type_list(type_map[short_notation] || short_notation)
     end
 
+    # convert a map to an array if it is not one
+    # @api private
+    # @param original_map [Object] the type(s) to convert
+    # @return [Array] a list of objects
     def to_type_list(original_map)
       return original_map if original_map.respond_to?(:each)
       [original_map]
