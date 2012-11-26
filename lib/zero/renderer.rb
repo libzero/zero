@@ -65,6 +65,18 @@ module Zero
       self
     end
 
+    # render a template
+    #
+    # This method will render the given template, based on the type in the given
+    # context.
+    # @param name [String] the name of the template
+    # @param type [Array] a list of accept types used to find the template
+    # @param context [Object] the context in which to evaluate the template
+    # @return [String] the rendered content
+    def render(name, type, context)
+      template(name, type).render(context)
+    end
+
     private
 
     # search in `template_path` for templates beginning with `template_name`
@@ -102,6 +114,22 @@ module Zero
     def to_type_list(original_map)
       return original_map if original_map.respond_to?(:each)
       [original_map]
+    end
+
+    # get the prepared template for the name and type
+    # @api private
+    # @param name [String] the name of the template
+    # @param type [Array] the types for the template
+    # @return [Tilt::Template] a prepared tilt template
+    def template(name, types)
+      types.each do |type|
+        template = templates[name][type]
+        unless template.nil?
+          return template if template.kind_of?(Tilt::Template)
+          return Tilt.new(template)
+        end
+      end
+      raise ArgumentError "No template found for '#{name}'!"
     end
   end
 end
