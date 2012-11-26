@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Zero::Renderer, 'read_template_path!' do
   subject { Zero::Renderer.new(template_path, type_map) }
   let(:template_path) { 'foo' }
-  let(:file_list) { ['./foo/welcome/index.html.erb'] }
+  let(:file_list) { ['foo/welcome/index.html.erb'] }
 
   before :each do
     subject.stub(:search_files).and_return(file_list)
@@ -18,14 +18,14 @@ describe Zero::Renderer, 'read_template_path!' do
 
   context 'without mapping' do
     let(:type_map) { {} }
-    let(:result) { { 'html' => './foo/welcome/index.html.erb' } }
+    let(:result) { { 'html' => 'foo/welcome/index.html.erb' } }
 
     it_behaves_like 'a template loader'
   end
 
   context 'with a single mapping' do
     let(:type_map) { {'html' => 'text/html' } }
-    let(:result) { { 'text/html' => './foo/welcome/index.html.erb' } }
+    let(:result) { { 'text/html' => 'foo/welcome/index.html.erb' } }
 
     it_behaves_like 'a template loader'
   end
@@ -33,8 +33,8 @@ describe Zero::Renderer, 'read_template_path!' do
   context 'with multiple mappings' do
     let(:type_map) { {'html' => ['text/html', 'text/xml'] } }
     let(:result) { {
-      'text/html' => './foo/welcome/index.html.erb',
-      'text/xml'  => './foo/welcome/index.html.erb'
+      'text/html' => 'foo/welcome/index.html.erb',
+      'text/xml'  => 'foo/welcome/index.html.erb'
     } }
 
     it_behaves_like 'a template loader'

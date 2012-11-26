@@ -56,13 +56,19 @@ module Zero
     # the wanted template.
     # @return [Self] returns the object
     def read_template_path!
-      @templates = Hash.new do |hash, key|
-        # TODO this is just ugly
-        result = []
-        search_files(key).each { |file| fill_template_type_map(result, file) }
-        Hash[result]
+      # TODO clean up later
+      @templates = {}
+      search_files.each do |file|
+        parts = file.gsub(/#{template_path}/, '').split('.')
+        @templates[parts[0]] ||= {}
+        if parts.count > 2 then
+          read_type(parts[1]).each do |type|
+            @templates[parts[0]][type] = file
+          end
+        else
+          @templates[parts[0]][''] = file
+        end
       end
-      self
     end
 
     # render a template
@@ -83,19 +89,8 @@ module Zero
     # @api private
     # @param template_name [String] the name of the template
     # @return [#each] a list of all templates found
-    def search_files(template_name)
-      Dir[template_path + template_name + '**/*.*']
-    end
-
-    # fill the `datamap` with all variants of files and types found
-    # @api private
-    # @param dataset [Hash] the hash to fill with values
-    # @param file [String] a filename which will be used to fill the hash
-    def fill_template_type_map(dataset, file)
-      parts = file.split('.')
-      read_type(parts[2]).each do |type|
-        dataset << [type, file]
-      end
+    def search_files
+      Dir[template_path + '**/*.*']
     end
 
     # gets the type information from a file and converts it to an array of
@@ -129,7 +124,7 @@ module Zero
           return Tilt.new(template)
         end
       end
-      raise ArgumentError "No template found for '#{name}'!"
+      raise ArgumentError.new "No template found for '#{name}'!"
     end
   end
 end
