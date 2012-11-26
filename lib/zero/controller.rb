@@ -10,6 +10,21 @@ module Zero
       new(Zero::Request.new(env)).response
     end
 
+    # set the renderer to use in the controller
+    def self.renderer=(renderer)
+      @@renderer = renderer
+    end
+
+    # get the renderer set in the controller
+    def self.renderer
+      @@renderer
+    end
+
+    # a small helper to get the actual renderer
+    def renderer
+      self.class.renderer
+    end
+
     # initialize the controller
     # @param request [Request] a request object
     def initialize(request)
