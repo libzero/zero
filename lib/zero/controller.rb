@@ -25,7 +25,7 @@ module Zero
     def response
       process if respond_to?(:process)
       render
-      @response
+      @response.to_a
     end
   end
 end
