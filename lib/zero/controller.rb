@@ -28,9 +28,5 @@ module Zero
     def process
       raise NotImplementedError.new("'render' not implemented in #{self.class}")
     end
-
-    def process
-      raise NotImplementedError.new("'render' not implemented in #{self.class}")
-    end
   end
 end
