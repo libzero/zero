@@ -14,19 +14,18 @@ module Zero
     # @param request [Request] a request object
     def initialize(request)
       @request  = request
-      @response = Rack::Response.new
+      @response = Zero::Response.new
     end
 
     # build the response and return it
+    #
+    # This method calls #process if it was defined so make it easier to process
+    # the request before rendering stuff.
     # @return Response a rack conform response
     def response
       process if respond_to?(:process)
       render
       @response
-    end
-
-    def process
-      raise NotImplementedError.new("'render' not implemented in #{self.class}")
     end
   end
 end
