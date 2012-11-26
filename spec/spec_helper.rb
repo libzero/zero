@@ -5,7 +5,17 @@ SimpleCov.start do
 end
 
 require 'rack'
+require 'erb'
+require 'tilt'
 require 'zero/all'
+
+class SpecTemplateContext
+  attr_accessor :name
+
+  def initialize(name)
+    @name = name
+  end
+end
 
 class SpecController < Zero::Controller
   def process; end
