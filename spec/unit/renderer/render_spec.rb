@@ -1,34 +1,34 @@
 require 'spec_helper'
 
 describe Zero::Renderer, '#render' do
-  subject { Zero::Renderer.new(template_path) }
-  let(:template_path) { 'foo' }
+  subject { Zero::Renderer.new(template_path, type_map) }
+  let(:template_path) { 'spec/fixtures/templates' }
   let(:file_list) { ['./foo/welcome/index.html.erb'] }
+  let(:type_map) {{
+    'html' => ['text/html', 'text/xml', '*/*'],
+    'json' => ['application/json', 'plain/text']
+  }}
+  let(:html_types) { ['text/html'] }
+  let(:json_types) { ['application/json'] }
+  let(:binding) { SpecTemplateContext.new('foo') }
 
-  shared_examples_for 'the rendering' do
-    before :each do
-      subject.stub(:search_files).and_return(file_list)
-      subject.stub(:template).and_return(Tilt[:erb].new {template} )
-    end
-
-    it "renders the template" do
-      subject.render('welcome/index', 'text/html', binding).should eq(result)
-    end
+  before :each do
+    subject.read_template_path!
   end
 
-  context 'a simple template' do
-    let(:template) { 'success' }
-    let(:binding) { Object.new }
-    let(:result) { template }
-
-    it_behaves_like 'the rendering'
+  it 'returns a tilt template' do
+    subject.render('index', html_types, binding).should be_kind_of(String)
   end
 
-  context 'a complex template' do
-    let(:template) { 'success <%= name %>' }
-    let(:binding) { SpecTemplateContext.new('bar') }
-    let(:result) { 'success bar' }
+  it 'renders html content' do
+    subject.render('index', html_types, binding).should match('success')
+  end
 
-    it_behaves_like 'the rendering'
+  it 'returns a tilt template for different types' do
+    subject.render('index', json_types, binding).should be_kind_of(String)
+  end
+
+  it 'renders json content' do
+    subject.render('index', json_types, binding).should match("{text: 'success'}")
   end
 end
