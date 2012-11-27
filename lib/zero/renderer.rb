@@ -114,7 +114,7 @@ module Zero
     # get the prepared template for the name and type
     # @api private
     # @param name [String] the name of the template
-    # @param type [Array] the types for the template
+    # @param types [Array] the types for the template
     # @return [Tilt::Template] a prepared tilt template
     def template(name, types)
       types.each do |type|
