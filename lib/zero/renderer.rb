@@ -61,12 +61,16 @@ module Zero
       search_files.each do |file|
         parts = file.gsub(/#{template_path}/, '').split('.')
         @templates[parts[0]] ||= {}
+
+        # Set default value
+        types = 'default'
+        # Overwrite default value, if it's set in template path
         if parts.count > 2 then
-          read_type(parts[1]).each do |type|
-            @templates[parts[0]][type] = file
-          end
-        else
-          @templates[parts[0]][''] = file
+          types = parts[1]
+        end
+
+        read_type(types).each do |type|
+          @templates[parts[0]][type] = file
         end
       end
     end

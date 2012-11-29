@@ -39,4 +39,15 @@ describe Zero::Renderer, 'read_template_path!' do
 
     it_behaves_like 'a template loader'
   end
+
+  context 'with default template' do
+    let(:file_list) {['foo/welcome/index.erb']}
+    let(:type_map) { {'default' => ['text/html', 'text/xml'] } }
+    let(:result) { {
+      'text/html' => 'foo/welcome/index.erb',
+      'text/xml'  => 'foo/welcome/index.erb'
+    } }
+
+    it_behaves_like 'a template loader'
+  end
 end
