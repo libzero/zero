@@ -129,6 +129,9 @@ module Zero
             return Tilt.new(template)
           end
         end
+        raise ArgumentError.new(
+          "No template found for any of this types #{types.join ', '}!"
+        )
       end
       raise ArgumentError.new "No template found for '#{name}'!"
     end

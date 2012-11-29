@@ -10,6 +10,7 @@ describe Zero::Renderer, '#render' do
   }}
   let(:html_types) { ['text/html'] }
   let(:json_types) { ['application/json'] }
+  let(:foo_types)  { ['foo/bar', 'bar/foo'] }
   let(:binding) { SpecTemplateContext.new('foo') }
 
   before :each do
@@ -36,5 +37,14 @@ describe Zero::Renderer, '#render' do
     expect {
       subject.render('foobar', html_types, binding)
     }.to raise_error(ArgumentError, "No template found for 'foobar'!")
+  end
+
+  it 'returns an ArgumentError, if no template fits types' do
+    expect {
+      subject.render('index', foo_types, binding)
+    }.to raise_error(
+      ArgumentError,
+      "No template found for any of this types #{foo_types.join ', '}!"
+    )
   end
 end
