@@ -31,4 +31,10 @@ describe Zero::Renderer, '#render' do
   it 'renders json content' do
     subject.render('index', json_types, binding).should match("{text: 'success'}")
   end
+
+  it 'returns an ArgumentError, if given template does not exist' do
+    expect {
+      subject.render('foobar', html_types, binding)
+    }.to raise_error(ArgumentError, "No template found for 'foobar'!")
+  end
 end

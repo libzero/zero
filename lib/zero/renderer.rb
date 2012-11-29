@@ -121,11 +121,13 @@ module Zero
     # @param types [Array] the types for the template
     # @return [Tilt::Template] a prepared tilt template
     def template(name, types)
-      types.each do |type|
-        template = templates[name][type]
-        unless template.nil?
-          return template if template.kind_of?(Tilt::Template)
-          return Tilt.new(template)
+      if templates.has_key? name
+        types.each do |type|
+          template = templates[name][type]
+          unless template.nil?
+            return template if template.kind_of?(Tilt::Template)
+            return Tilt.new(template)
+          end
         end
       end
       raise ArgumentError.new "No template found for '#{name}'!"
