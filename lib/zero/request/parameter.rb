@@ -28,6 +28,9 @@ module Zero
       attr_reader :payload
       alias_method(:post, :payload)
 
+      # get all custom parameters
+      attr_reader :custom
+
       # creates a new parameter instance
       #
       # This should never be called directly, as it will be generated for you.
@@ -37,6 +40,32 @@ module Zero
       def initialize(environment)
         @query   = extract_query_params(environment)
         @payload = extract_payload_params(environment)
+        @custom  = {}
+        environment['zero.params.custom'] = @custom
+      end
+
+      # get a parameter
+      #
+      # With this method you can get the value of a parameter. First the
+      # custom parameters are checked, then payload and after that the query
+      # ones.
+      #
+      # *Beware, that this may lead to security holes!*
+      #
+      # @param key [String] a key to look for
+      # @returns [String] the value of the key
+      def [](key)
+        @custom[key] || @payload[key] || @query[key]
+      end
+
+      # set a custom key/value pair
+      #
+      # Use this method if you want to set a custom parameter for later use. If
+      # the key was already set it will be overwritten.
+      # @param key [String] the key to use for saving the parameter
+      # @param value [Object] the value for the key
+      def []=(key, value)
+        @custom[key] = value
       end
 
       private
