@@ -52,7 +52,7 @@ module Zero
         match = route.match(request.path)
         if match
           match.names.each_index do |i|
-            request.update_param(match.names[i], match.captures[i])
+            request.params[match.names[i]] = match.captures[i]
           end
           return target.call(request.env)
         end
