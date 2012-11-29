@@ -7,7 +7,7 @@ module Zero
   class Controller
     # initialize a new instance of the controller and call response on it
     def self.call(env)
-      new(Zero::Request.new(env)).response
+      new(Zero::Request.create(env)).response
     end
 
     # set the renderer to use in the controller

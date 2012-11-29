@@ -11,4 +11,12 @@ describe Zero::Controller, '.call' do
   it "returns an object with the first element being a status" do
     subject[0].should be_kind_of(Numeric)
   end
+
+  it "does not modify an existing request" do
+    r = Zero::Request.new(env)
+    r.params['foo'] = 'bar'
+    subject
+    r = Zero::Request.create(env)
+    expect(r.params['foo']).to eq('bar')
+  end
 end
