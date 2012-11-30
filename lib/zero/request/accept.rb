@@ -13,14 +13,6 @@ module Zero
       KEY_HTTP_ACCEPT_LANGUAGE = 'HTTP_ACCEPT_LANGUAGE'
       KEY_HTTP_ACCEPT_ENCODING = 'HTTP_ACCEPT_ENCODING'
 
-      def self.map=(map)
-        @@map = map
-      end
-
-      def self.map
-        @@map ||= {}
-      end
-
       # create a new accept object
       def initialize(environment)
         @types = AcceptType.new(environment[KEY_HTTP_ACCEPT])

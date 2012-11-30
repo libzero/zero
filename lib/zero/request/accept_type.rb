@@ -53,14 +53,6 @@ module Zero
         end
         [media_type, 0]
       end
-
-      # map media types to the type given in the map
-      # @param type [String] the media type
-      # @return the media type of the mapping or the original
-      def map_type(type)
-        return map[type] if map.has_key?(type)
-        type
-      end
     end
   end
 end
