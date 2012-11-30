@@ -88,9 +88,7 @@ module Zero
       # @param query [String] the query string
       # @return [Hash] the key/valuie pairs
       def parse_string(query)
-        params = query.split('&')
-        params.map! {|part| part.split('=') }
-        Hash[params]
+        Hash[URI.decode_www_form(query)]
       end
     end
   end

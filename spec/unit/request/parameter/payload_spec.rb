@@ -3,22 +3,31 @@ require 'spec_helper'
 describe Zero::Request::Parameter, '#payload' do
   subject { Zero::Request::Parameter.new(env) }
 
-  context "without parameters" do
+  context 'without parameters' do
     let(:env) { EnvGenerator.get('/foo') }
     its(:payload) { should == {} }
   end
 
-  context "with a query string" do
+  context 'with a query string' do
     let(:env) { EnvGenerator.get('/foo?bar=baz') }
     its(:payload) { should == {} }
   end
 
-  context "with a post body" do
+  context 'with a post body' do
     let(:env) do
       EnvGenerator.post('/foo', {
         :input => 'bar=baz', 'CONTENT_TYPE' => 'multipart/form-data'
       })
     end
     its(:payload) { should == {'bar' => 'baz'} }
+  end
+
+  context 'with special characters' do
+    let(:env) do
+      EnvGenerator.post('/foo', {
+        :input => 'bar=foo%20bar', 'CONTENT_TYPE' => 'multipart/form-data'
+      })
+    end
+    its(:payload) { should == {'bar' => 'foo bar'} }
   end
 end
