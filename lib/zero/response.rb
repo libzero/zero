@@ -67,5 +67,14 @@ module Zero
       self.header['Content-Type'] = value
     end
 
+    # Sets the Location header to the given URL and the status code to 302.
+    # 
+    # @param [String] location Redirect URL
+    #
+    def redirect(location)
+      self.status = 302
+      self.header['Location'] = location
+    end
+
   end
 end
