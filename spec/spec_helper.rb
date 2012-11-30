@@ -7,7 +7,7 @@ end
 require 'rack'
 require 'erb'
 require 'tilt'
-require 'zero/all'
+require 'zero'
 
 class SpecTemplateContext
   attr_accessor :name
