@@ -1,4 +1,4 @@
-zero - a toolset for web services
+zero - a toolkit for web services
 =================================
 
 The focus of this project is to provide small helpers for building web services
@@ -12,7 +12,7 @@ to use and stable enough.
 The following is a small list of things, the project already provides and at the
 end you can find a small sample on what is already possible.
 
-parts of the toolset
+parts of the toolkit
 --------------------
 
 ### Request
