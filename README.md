@@ -55,5 +55,6 @@ example
 -------
 
 To give you an impression on what these parts can already do for you, you can
-take a look at the sample application [here](link_to_app?) and try it out. It
-does not take much.
+take a look at the sample application 
+[here](https://github.com/Gibheer/zero-examples) and try it out. It does not
+take much.
