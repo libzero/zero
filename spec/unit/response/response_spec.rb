@@ -133,6 +133,14 @@ describe Zero::Response do
       value[0].should eq(302)
       value[1]['Location'].should eq('http://foo.bar/relocated/thingy')
     end
+
+    it "sets the given status code and the given Location" do
+      subject.redirect('http://foo.bar/relocated/other_thingy', 307)
+      value = subject.to_a
+
+      value[0].should eq(307)
+      value[1]['Location'].should eq('http://foo.bar/relocated/other_thingy')
+    end
   end
 
 end

@@ -71,8 +71,8 @@ module Zero
     # 
     # @param [String] location Redirect URL
     #
-    def redirect(location)
-      self.status = 302
+    def redirect(location, status = 302)
+      self.status = status
       self.header['Location'] = location
     end
 
