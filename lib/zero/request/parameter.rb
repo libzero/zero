@@ -12,6 +12,8 @@ module Zero
       ENV_KEY_QUERY   = 'QUERY_STRING'
       # the key for the payload
       ENV_KEY_PAYLOAD = 'rack.input'     
+      # the key for custom parameters
+      ENV_KEY_CUSTOM = 'zero.params.custom'
       # the key for the content type
       ENV_KEY_CONTENT_TYPE = 'CONTENT_TYPE'
       # all content types which used for using the body as a parameter input
@@ -40,8 +42,12 @@ module Zero
       def initialize(environment)
         @query   = extract_query_params(environment)
         @payload = extract_payload_params(environment)
-        @custom  = {}
-        environment['zero.params.custom'] = @custom
+        if environment.has_key?(ENV_KEY_CUSTOM)
+          @custom = environment[ENV_KEY_CUSTOM]
+        else
+          @custom  = {}
+          environment[ENV_KEY_CUSTOM] = @custom
+        end
       end
 
       # get a parameter
