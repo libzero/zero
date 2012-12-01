@@ -5,9 +5,10 @@ Gem::Specification.new do |s|
   s.name = 'zero'
   s.version = Zero::VERSION.dup
 
-  s.authors  = ['Gibheer']
+  s.authors  = ['Gibheer', 'Stormwind']
   s.email    = 'gibheer@gmail.com'
-  s.summary  = 'Event distribution and aggregation framework'
+  s.summary  = 'a toolkit for building web services'
+  s.description = 'The focus of this project is to provide small helpers for building web services without the need of learning a complete new web stack from the bottom to the top.'
   s.homepage = 'http://github.com/gibheer/zero'
 
   s.files            = `git ls-files`.split("\n")
