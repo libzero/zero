@@ -20,16 +20,17 @@ module Zero
       @@renderer
     end
 
-    # a small helper to get the actual renderer
-    def renderer
-      self.class.renderer
-    end
+    # the renderer which can be used to render templates
+    attr_reader :renderer
 
     # initialize the controller
+    #
+    # At initialization `@request`, `@response` and `@renderer` are set.
     # @param request [Request] a request object
     def initialize(request)
       @request  = request
       @response = Zero::Response.new
+      @renderer = self.class.renderer
     end
 
     # build the response and return it

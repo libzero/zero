@@ -1,8 +1,13 @@
 require 'spec_helper'
 
 describe Zero::Controller, '.call' do
-  subject { SpecController.call(env) }
+  subject { controller.call(env) }
+  let(:controller) { SpecController }
   let(:env) { EnvGenerator.get('/foo') }
+
+  before :each do
+    controller.renderer = Object.new
+  end
 
   it "returns a response" do
     subject.should be_respond_to(:to_a)
