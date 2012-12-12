@@ -2,10 +2,12 @@ source 'https://rubygems.org'
 
 gemspec
 
-group :guard do
+group :development do
   gem 'guard'
   gem 'guard-bundler'
   gem 'guard-rspec'
+  gem 'yard'
+  gem 'redcarpet'
 end
 
 group :test do
