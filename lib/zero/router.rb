@@ -47,7 +47,7 @@ module Zero
     # @param env [Hash] a rack environment
     # @return [Array] a rack compatible response
     def call(env)
-      request = Zero::Request.create(env)
+      request = Zero::Request.new(env)
       @routes.each do |route, target|
         match = route.match(request.path)
         if match

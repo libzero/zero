@@ -6,9 +6,16 @@ require_relative 'request/server'
 module Zero
   # This class wraps around a rack environment for easier access to all data.
   class Request
-    def self.create(environment)
-      return environment['zero.request'] if environment.has_key?('zero.request')
-      new(environment)
+    class << self
+      # replace #new with a function to reuse an already defined request
+      alias_method :__new__, :new
+
+      # reuse an already defined request in the environment or create a new one
+      # @param environment [Hash] a rack compatible request environment
+      def new(environment)
+        return environment['zero.request'] if environment.has_key?('zero.request')
+        __new__(environment)
+      end
     end
 
     # create a new request object

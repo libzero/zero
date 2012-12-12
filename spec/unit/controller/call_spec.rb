@@ -21,7 +21,7 @@ describe Zero::Controller, '.call' do
     r = Zero::Request.new(env)
     r.params['foo'] = 'bar'
     subject
-    r = Zero::Request.create(env)
+    r = Zero::Request.new(env)
     expect(r.params['foo']).to eq('bar')
   end
 end

@@ -45,7 +45,7 @@ describe Zero::Router, '#call' do
     let(:env) { EnvGenerator.get('/foo/bar') }
     let(:app) do
       lambda do |env|
-        [200, {}, [Zero::Request.create(env).params['id']]]
+        [200, {}, [Zero::Request.new(env).params['id']]]
       end
     end
     let(:result) { ['bar'] }

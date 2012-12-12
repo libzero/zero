@@ -7,7 +7,17 @@ module Zero
   class Controller
     # initialize a new instance of the controller and call response on it
     def self.call(env)
-      new(Zero::Request.create(env)).response
+      new(Zero::Request.new(env)).response
+    end
+
+    # set the class to use for responses
+    def self.response=(response_class)
+      @@response = response_class
+    end
+
+    # return the set response class
+    def self.response
+      @@response ||= Zero::Response
     end
 
     # set the renderer to use in the controller
@@ -29,7 +39,7 @@ module Zero
     # @param request [Request] a request object
     def initialize(request)
       @request  = request
-      @response = Zero::Response.new
+      @response = self.class.response
       @renderer = self.class.renderer
     end
 

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Zero::Request, '.create' do
+describe Zero::Request, '.new' do
   subject { Zero::Request.new(env) }
 
   context "with a fresh environment" do
     let(:env) { EnvGenerator.get('/foo') }
     it "creates an instance of Zero::Request" do
-      Zero::Request.create(env).should be_an_instance_of(Zero::Request)
+      Zero::Request.new(env).should be_an_instance_of(Zero::Request)
     end
   end
 
@@ -15,7 +15,7 @@ describe Zero::Request, '.create' do
     let(:new_env) { subject.env }
 
     it "returns an already build request" do
-      Zero::Request.create(new_env).should be(subject)
+      Zero::Request.new(new_env).should be(subject)
     end
   end
 end
