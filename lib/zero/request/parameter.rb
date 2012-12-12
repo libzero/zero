@@ -59,7 +59,7 @@ module Zero
       # *Beware, that this may lead to security holes!*
       #
       # @param key [String] a key to look for
-      # @returns [String] the value of the key
+      # @return [String] the value of the key
       def [](key)
         @custom[key] || @payload[key] || @query[key]
       end
