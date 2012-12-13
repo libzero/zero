@@ -7,7 +7,7 @@ module Zero
   class Controller
     # initialize a new instance of the controller and call response on it
     def self.call(env)
-      new(Zero::Request.new(env)).response
+      new(env).response
     end
 
     # set the class to use for responses
@@ -18,6 +18,16 @@ module Zero
     # return the set response class
     def self.response
       @@response ||= Zero::Response
+    end
+
+    # set a class to use for requests
+    def self.request=(request_class)
+      @@request = request_class
+    end
+
+    # return the set request class
+    def self.request
+      @@request ||= Zero::Request
     end
 
     # set the renderer to use in the controller
@@ -35,10 +45,11 @@ module Zero
 
     # initialize the controller
     #
-    # At initialization `@request`, `@response` and `@renderer` are set.
-    # @param request [Request] a request object
-    def initialize(request)
-      @request  = request
+    # This creates a new controller instance using the defined classes of
+    # renderer, request and response.
+    # @param env [Hash] a rack compatible environment
+    def initialize(env)
+      @request  = self.class.request.new(env)
       @response = self.class.response
       @renderer = self.class.renderer
     end
