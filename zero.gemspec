@@ -7,9 +7,10 @@ Gem::Specification.new do |s|
 
   s.authors  = ['Gibheer', 'Stormwind']
   s.email    = 'gibheer@gmail.com'
+  s.license  = '3-clause BSD'
   s.summary  = 'a toolkit for building web services'
   s.description = 'The focus of this project is to provide small helpers for building web services without the need of learning a complete new web stack from the bottom to the top.'
-  s.homepage = 'http://github.com/gibheer/zero'
+  s.homepage = 'http://github.com/libzero/zero'
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
