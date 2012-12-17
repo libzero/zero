@@ -1,6 +1,8 @@
 zero - a toolkit for web services
 =================================
 
+[![Build Status](https://travis-ci.org/libzero/zero.png)](http://travis-ci.org/libzero/zero)
+
 The focus of this project is to provide small helpers for building web services
 without the need of learning a complete new web stack from the bottom to the
 top.
