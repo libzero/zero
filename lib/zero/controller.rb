@@ -50,7 +50,7 @@ module Zero
     # @param env [Hash] a rack compatible environment
     def initialize(env)
       @request  = self.class.request.new(env)
-      @response = self.class.response
+      @response = self.class.response.new
       @renderer = self.class.renderer
     end
 

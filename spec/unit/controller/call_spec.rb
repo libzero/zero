@@ -24,4 +24,18 @@ describe Zero::Controller, '.call' do
     r = Zero::Request.new(env)
     expect(r.params['foo']).to eq('bar')
   end
+
+  context "with the response" do
+    let(:response_class) { mock }
+    before :each do
+      Zero::Controller.response = response_class
+      response_class.should_receive(:new)
+    end
+
+    after :each do
+      Zero::Controller.response = nil
+    end
+
+    it { subject }
+  end
 end
