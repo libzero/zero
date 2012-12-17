@@ -8,7 +8,8 @@ group :development do
   gem 'guard-rspec'
   gem 'simplecov'
   gem 'yard'
-  gem 'redcarpet'
+  gem 'redcarpet', :platform => :ruby
+  gem 'kramdown',  :platform => :jruby
 end
 
 group :test do

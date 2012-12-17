@@ -20,10 +20,15 @@ GEM
     guard-rspec (2.3.1)
       guard (>= 1.1)
       rspec (~> 2.11)
+    kramdown (0.14.1)
     listen (0.6.0)
     lumberjack (1.0.2)
     method_source (0.8.1)
     multi_json (1.5.0)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
     pry (0.9.10-java)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -51,11 +56,13 @@ GEM
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   guard
   guard-bundler
   guard-rspec
+  kramdown
   rack
   redcarpet
   rspec
