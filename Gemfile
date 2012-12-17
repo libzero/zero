@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'backports', :platform => :ruby_18
+
 group :development do
   gem 'guard'
   gem 'guard-bundler'
