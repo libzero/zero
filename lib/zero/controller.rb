@@ -56,13 +56,22 @@ module Zero
 
     # build the response and return it
     #
-    # This method calls #process if it was defined so make it easier to process
-    # the request before rendering stuff.
+    # This method calls #process. #process has to be provided by the actual
+    # implementation and should do all processing necessary to provide the
+    # content.
     # @return Response a rack conform response
     def response
-      process if respond_to?(:process)
-      render
+      process
       @response.to_a
+    end
+
+    # renders a template
+    #
+    # This method calls #render of the provided renderer and gives it the
+    # template name and accept types, so that the renderer can search for the
+    # appropiate template to render.
+    def render(template)
+      @renderer.render(template, @request.accept.types, self)
     end
   end
 end
