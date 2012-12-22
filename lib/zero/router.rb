@@ -21,6 +21,10 @@ module Zero
     VARIABLE_MATCH = %r{:(\w+)[^/]?}
     # the replacement string to make it an regex
     VARIABLE_REGEX = '(?<\1>.+?)'
+    # environment key to store custom parameters
+    ENV_KEY_CUSTOM = 'zero.params.custom'
+    # environment key to the path info
+    ENV_KEY_PATH_INFO = 'PATH_INFO'
 
     # create a new router instance
     #
@@ -47,14 +51,14 @@ module Zero
     # @param env [Hash] a rack environment
     # @return [Array] a rack compatible response
     def call(env)
-      request = Zero::Request.new(env)
+      env[ENV_KEY_CUSTOM] ||= {}
       @routes.each do |route, target|
-        match = route.match(request.path)
+        match = route.match(env[ENV_KEY_PATH_INFO])
         if match
           match.names.each_index do |i|
-            request.params[match.names[i]] = match.captures[i]
+            env[ENV_KEY_CUSTOM][match.names[i]] = match.captures[i]
           end
-          return target.call(request.env)
+          return target.call(env)
         end
       end
       [404, {'Content-Type' => 'text/html'}, ['Not found!']]
