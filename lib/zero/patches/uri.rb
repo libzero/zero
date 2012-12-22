@@ -18,7 +18,6 @@ module URI
       return self.decode_www_form_18 query
     end
 
-
     # Own implementation of decode_www_form.
     # Shall behave almost like the original method, but without any encoding
     # stuff.
@@ -28,7 +27,8 @@ module URI
     #
     def self.decode_www_form_18(query)
       return [] if query.empty?
-      unless query.match '='
+
+      unless query.match /^[^#=;&]*=[^#=;&]*([;&][^#=;&]*=[^#=;&]*)*$/
         raise ArgumentError,
           "invalid data of application/x-www-form-urlencoded (#{query})"
       end

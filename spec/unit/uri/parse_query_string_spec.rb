@@ -114,6 +114,32 @@ describe URI, '#parse_query_string' do
     result.should eq([])
   end
 
-  # what happend on more than one = without an & or ; in between?
+  it 'throws an error, if more than one = without an & or ; in between' do
+    expect {
+      result = URI::parse_query_string("foo=bar=foo&bar=foo=bar")
+    }.to raise_error(
+      ArgumentError,
+      "invalid data of application/x-www-form-urlencoded "+
+       "(foo=bar=foo&bar=foo=bar)"
+    )
+  end
+
+  it 'throws an error, if more than one & without an = in between' do
+    expect {
+      result = URI::parse_query_string("foo&bar=foo&bar")
+    }.to raise_error(
+      ArgumentError,
+      "invalid data of application/x-www-form-urlencoded (foo&bar=foo&bar)"
+    )
+  end
+
+  it 'throws an error, if more than one ; without an = in between' do
+    expect {
+      result = URI::parse_query_string("foo;bar=foo;bar")
+    }.to raise_error(
+      ArgumentError,
+      "invalid data of application/x-www-form-urlencoded (foo;bar=foo;bar)"
+    )
+  end
 
 end
