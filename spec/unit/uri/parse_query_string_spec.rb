@@ -108,4 +108,12 @@ describe URI, '#parse_query_string' do
     result.should eq([['foo[]', 'foo'], ['foo[]', 'bar']])
   end
 
+  it 'returns an empty array, if query string is empty' do
+    result = URI::parse_query_string("")
+
+    result.should eq([])
+  end
+
+  # what happend on more than one = without an & or ; in between?
+
 end

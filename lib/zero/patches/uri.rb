@@ -14,7 +14,32 @@ module URI
       end
 
       # else split the query self
-      return []
+      return self.decode_www_form_18 query
+    end
+
+    # Own implementation of decode_www_form.
+    # Shall behave almost like the original method, but without any encoding
+    # stuff.
+    #
+    # @param [String] query The query string
+    # @return [Array] Parsed query
+    #
+    def self.decode_www_form_18(query)
+      return [] if query.empty?
+      unless query.match '='
+        raise ArgumentError,
+          "invalid data of application/x-www-form-urlencoded (#{query})"
+      end
+      parsed = []
+      # breakes the string at & and ;
+      query.split(/[&;]/).each do |query_part|
+        # breakes the string parts at =
+        key, value = query_part.split('=')
+        # append the key value pair on the result array
+        parsed << [key, value]
+      end
+      # return result array
+      return parsed
     end
 
 =begin
