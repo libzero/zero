@@ -1,3 +1,9 @@
+# Only add fixes, if needed to avoid an unnecessary installed gem
+if RUBY_VERSION <= '1.9'
+  require 'zero_fix18'
+end
+
+
 module Zero
   require 'zero/controller'
   require 'zero/router'

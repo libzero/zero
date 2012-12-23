@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.8.24'
 
   s.add_dependency('tilt')
+  s.add_dependency('zero-fix18') if RUBY_VERSION <= '1.9' 
 
 #  s.add_development_dependency('thor')
 #  s.add_development_dependency('rspec')
