@@ -1,5 +1,3 @@
-require 'zero/patches/uri'
-
 module Zero
   require 'zero/controller'
   require 'zero/router'
