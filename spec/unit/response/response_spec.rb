@@ -55,6 +55,7 @@ describe Zero::Response do
       value = subject.to_a
 
       value[1].should eq({})  # Headers
+      value[2].should eq([])  # Body
     end
 
     it "removes Content-Type, Content-Length and body on status code 304" do
@@ -66,6 +67,7 @@ describe Zero::Response do
       value = subject.to_a
 
       value[1].should eq({})  # Headers
+      value[2].should eq([])  # Body
     end
   end
 
