@@ -5,5 +5,7 @@ describe Zero::Request::Accept, '#types' do
   let(:media_types) { 'text/html' }
   let(:env) { EnvGenerator.get('/foo', {'HTTP_ACCEPT' => media_types}) }
 
-  its(:types) { should be_an_instance_of(Zero::Request::AcceptType) }
+  it 'sets the media type to the given value' do
+    subject.types.preferred.should eq('text/html')
+  end
 end

@@ -5,5 +5,7 @@ describe Zero::Request::Accept, '#language' do
   let(:language) { 'en_US' }
   let(:env) { EnvGenerator.get('/foo', {'HTTP_ACCEPT_LANGUAGE' => language}) }
 
-  its(:language) { should be_an_instance_of(Zero::Request::AcceptType) }
+  it 'sets the language to the given value' do
+    subject.language.preferred.should eq('en_US')
+  end
 end

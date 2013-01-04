@@ -5,5 +5,7 @@ describe Zero::Request::Accept, '#encoding' do
   let(:encoding) { 'en_US' }
   let(:env) { EnvGenerator.get('/foo', {'HTTP_ACCEPT_ENCODING' => encoding}) }
 
-  its(:encoding) { should be_an_instance_of(Zero::Request::AcceptType) }
+  it 'sets the encoding to the given value' do
+    subject.encoding.preferred.should eq('en_US')
+  end
 end
