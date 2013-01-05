@@ -8,11 +8,8 @@ module Zero
 
       # create a new instance of AcceptType
       def initialize(string)
-        if string.nil?
-          @elements = []
-        else
-          @elements = parse_elements(string)
-        end
+        string = '*/*' if string.nil? or string.empty?
+        @elements = parse_elements(string)
       end
 
       # return the preferred type
@@ -30,7 +27,7 @@ module Zero
 
       # converts the accept string to a useable array
       # @param string the string containing media ranges and options
-      def parse_elements(string = '*/*')
+      def parse_elements(string)
         string.
           gsub(/\s/, '').
           split(MEDIA_TYPE_SEPERATOR).
