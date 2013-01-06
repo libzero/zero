@@ -125,7 +125,8 @@ module Zero
         types.each do |type|
           template = templates[name][type]
           unless template.nil?
-            return template if template.kind_of?(Tilt::Template)
+            # TODO Will be implemented later
+            # return template if template.kind_of?(Tilt::Template)
             return Tilt.new(template)
           end
         end

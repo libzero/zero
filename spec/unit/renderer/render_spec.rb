@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Zero::Renderer, '#render' do
   subject { Zero::Renderer.new(template_path, type_map) }
   let(:template_path) { 'spec/fixtures/templates' }
-  let(:file_list) { ['./foo/welcome/index.html.erb'] }
   let(:type_map) {{
     'html' => ['text/html', 'text/xml', '*/*'],
     'json' => ['application/json', 'plain/text']
@@ -46,5 +45,10 @@ describe Zero::Renderer, '#render' do
       ArgumentError,
       "No template found for any of this types #{foo_types.join ', '}!"
     )
+  end
+
+  it 'uses the context' do
+    subject.render('context', html_types, binding).should match('foo')
+
   end
 end

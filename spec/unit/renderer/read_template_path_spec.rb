@@ -6,7 +6,13 @@ describe Zero::Renderer, 'read_template_path!' do
   let(:file_list) { ['foo/welcome/index.html.erb'] }
 
   before :each do
-    subject.stub(:search_files).and_return(file_list)
+    Dir.stub(:[]) do |arg|
+      if arg == 'foo/**/*.*'
+        file_list 
+      else
+        []
+      end
+    end
   end
 
   shared_examples_for 'a template loader' do
@@ -49,5 +55,12 @@ describe Zero::Renderer, 'read_template_path!' do
     } }
 
     it_behaves_like 'a template loader'
+  end
+
+  it 'creates an empty templates list without templates in path' do
+    subject = Zero::Renderer.new("bar", {})
+    subject.read_template_path!
+
+    subject.templates.should eq({})
   end
 end
