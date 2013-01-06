@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Zero::Router, '#call' do
   subject { Zero::Router.new(routes) }
   let(:result) { ['success'] }
+  let(:content_type) { {'Content-Type' => 'text/html'} }
+  let(:status_code) { 200 }
 
   let(:wrong_app) do
     lambda {|env| [200, {'Content-Type' => 'text/html'}, 'Wrong'] }
@@ -11,6 +13,8 @@ describe Zero::Router, '#call' do
 
   shared_examples_for 'a sample app' do
     it "returns a response" do
+      subject.call(env).to_a[0].should eq(status_code)
+      subject.call(env).to_a[1].should eq(content_type)
       subject.call(env).to_a[2].should eq(result)
     end
   end
@@ -37,6 +41,7 @@ describe Zero::Router, '#call' do
     let(:routes) {{ '/foo' => wrong_app, '/foo/bar/baz' => app }}
     let(:env) { EnvGenerator.get('/foo/bar') }
     let(:result) { ['Not found!'] }
+    let(:status_code) { 404 }
     it_behaves_like "a sample app"
   end
 
@@ -45,7 +50,7 @@ describe Zero::Router, '#call' do
     let(:env) { EnvGenerator.get('/foo/bar') }
     let(:app) do
       lambda do |env|
-        [200, {}, [Zero::Request.new(env).params['id']]]
+        [200, content_type, [Zero::Request.new(env).params['id']]]
       end
     end
     let(:result) { ['bar'] }
