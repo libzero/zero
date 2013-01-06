@@ -56,7 +56,7 @@ module Zero
     # TODO change into its own object?
     # @return [String] returns the content type of the request
     def content_type
-      @env[CONST_CONTENT_TYPE] if @env.has_key?(CONST_CONTENT_TYPE)
+      @env[CONST_CONTENT_TYPE]
     end
 
     # get the media types

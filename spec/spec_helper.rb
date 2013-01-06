@@ -40,6 +40,7 @@ class EnvGenerator
   KEY_REQUEST_POST   = 'POST'
   KEY_REQUEST_PUT    = 'PUT'
   KEY_REQUEST_DELETE = 'DELETE'
+  KEY_REQUEST_PATCH  = 'PATCH'
 
   def self.generate_env(uri, options)
     Rack::MockRequest.env_for(uri, options)
@@ -63,5 +64,9 @@ class EnvGenerator
 
   def self.delete(uri, options = {})
     generate_env(uri, options.merge(KEY_REQUEST_METHOD => KEY_REQUEST_DELETE))
+  end
+
+  def self.patch(uri, options = {})
+    generate_env(uri, options.merge(KEY_REQUEST_METHOD => KEY_REQUEST_PATCH))
   end
 end
