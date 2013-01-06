@@ -3,7 +3,8 @@ require 'spec_helper'
 describe Zero::Request::Parameter, '#initialize' do
   subject { Zero::Request::Parameter.new(env) }
   let(:env) { EnvGenerator.get('/get', {
-    'zero.params.custom' => {'foo' => 'bar'} }) }
+    'zero.params.custom' => {'foo' => 'bar'}
+  }) }
 
   it 'does not overwrite parameters' do
     subject

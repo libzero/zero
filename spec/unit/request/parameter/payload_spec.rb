@@ -30,4 +30,14 @@ describe Zero::Request::Parameter, '#payload' do
     end
     its(:payload) { should == {'bar' => 'foo bar'} }
   end
+
+  # TODO behaves like this, but is this really good like this?
+  context 'with a post body and content type application/json' do
+    let(:env) do
+      EnvGenerator.post('/foo', {
+        :input => '"foobar"', 'CONTENT_TYPE' => 'application/json'
+      })
+    end
+    its(:payload) { should == {} }
+  end
 end

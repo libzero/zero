@@ -79,14 +79,15 @@ module Zero
       # extracts the key value pairs from the environment
       # @return Hash all key value pairs from query string
       def extract_query_params(environment)
-        return {} if environment[ENV_KEY_QUERY].length == 0
         parse_string(environment[ENV_KEY_QUERY])
       end
 
       # extracts the key value pairs from the body
       # @return Hash all key value pairs from the payload
       def extract_payload_params(environment)
-        return {} unless PAYLOAD_CONTENT_TYPES.include?(environment[ENV_KEY_CONTENT_TYPE])
+        unless PAYLOAD_CONTENT_TYPES.include?(environment[ENV_KEY_CONTENT_TYPE])
+          return {}
+        end
         parse_string(environment[ENV_KEY_PAYLOAD].read)
       end
 

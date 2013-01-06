@@ -15,4 +15,9 @@ describe Zero::Request::Parameter, '#custom' do
 
     expect(subject.custom['foo']).to eq('latest')
   end
+
+  it 'is empty if no custom parameter is set' do
+    expect(subject.custom).to eq({})
+    expect(env['zero.params.custom']).to eq({})
+  end
 end
