@@ -3,17 +3,18 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'guard'
-  gem 'guard-bundler'
-  gem 'guard-rspec'
-  gem 'simplecov'
-  gem 'yard'
-  gem 'redcarpet', :platform => :ruby
-  gem 'kramdown',  :platform => :jruby
+  gem 'devutils-guard'
+  gem 'devutils-metrics'
+
+  group :documentation do
+  gem 'devutils-docs'
+    gem 'redcarpet', :platform => :ruby
+    gem 'kramdown',  :platform => :jruby
+  end
 end
 
 group :test do
   gem 'thor'
-  gem 'rspec'
   gem 'rack'
+  gem 'devutils'
 end
