@@ -4,7 +4,8 @@ module Zero
   #
   class Response
     attr_reader :status
-    attr_accessor :header, :body
+    attr_reader :body
+    attr_accessor :header
 
     # Constructor
     # Sets default status code to 200.
@@ -22,6 +23,23 @@ module Zero
     #
     def status=(status)
       @status = status.to_i
+    end
+
+    # set the body to a new value
+    #
+    # Use this function to set the body to a new value. It can either be an
+    # Object responding to `#each` per rack convention or a kind of string.
+    #
+    # @param content [#each, String] the content of the body
+    def body=(content)
+      content = [content] if content.kind_of?(String)
+
+      unless content.respond_to?(:each) then
+        raise ArgumentError.new(
+          "invalid body! Should be kind of String or respond to #each!")
+      end
+
+      @body = content
     end
 
     # Returns the data of the response as an array:
