@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zero (0.1.2)
+    zero (0.2.0)
       tilt
 
 GEM
