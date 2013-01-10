@@ -14,16 +14,17 @@ describe Zero::Request::AcceptType, '#preferred' do
   let(:lower_accept)   { [lower_quality, default].join(',') }
   
   context 'without mapping' do
-    it { subject.new(html).preferred.should           == html  }
-    it { subject.new(json).preferred.should           == json  }
-    it { subject.new(option).preferred.should         == foo   }
-    it { subject.new(simple_accept).preferred.should  == html  }
-    it { subject.new(quality_accept).preferred.should == html  }
-    it { subject.new(random_accept).preferred.should  == html  }
-    it { subject.new(lower_accept).preferred.should   == foo   }
-    it { subject.new(nil).preferred.should            == '*/*' }
-    it { subject.new('').preferred.should             == '*/*' }
-    it { subject.new('text / html').preferred.should  == html  }
+    it { subject.new(html).preferred.should                    == html  }
+    it { subject.new(json).preferred.should                    == json  }
+    it { subject.new(option).preferred.should                  == foo   }
+    it { subject.new(simple_accept).preferred.should           == html  }
+    it { subject.new(quality_accept).preferred.should          == html  }
+    it { subject.new(random_accept).preferred.should           == html  }
+    it { subject.new(lower_accept).preferred.should            == foo   }
+    it { subject.new(nil).preferred.should                     == '*/*' }
+    it { subject.new('').preferred.should                      == '*/*' }
+    it { subject.new('text / html').preferred.should           == html  }
+    it { subject.new("#{html};q=0.9,#{json}").preferred.should == json  }
   end
 
 #  context 'with mapping' do
