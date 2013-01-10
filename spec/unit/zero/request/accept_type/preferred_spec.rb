@@ -1,41 +1,75 @@
 require 'spec_helper'
 
 describe Zero::Request::AcceptType, '#preferred' do
-  subject { Zero::Request::AcceptType }
+  subject { Zero::Request::AcceptType.new(type_string).preferred }
+  let(:type_string) { types.join(',') }
+
   let(:html) { 'text/html' }
   let(:json) { 'application/json' }
   let(:foo)  { 'text/foo' }
-  let(:lower_quality) { foo + ';q=0.5' }
-  let(:default) { '*/*;q=0.1' }
-  let(:option)  { [foo + ';b=23', html].join(',') }
-  let(:simple_accept)  { [html, json].join(',') }
-  let(:quality_accept) { [html, lower_quality, default].join(',') }
-  let(:random_accept)  { [lower_quality, default, html].join(',') }
-  let(:lower_accept)   { [lower_quality, default].join(',') }
-  
-  context 'without mapping' do
-    it { subject.new(html).preferred.should                    == html  }
-    it { subject.new(json).preferred.should                    == json  }
-    it { subject.new(option).preferred.should                  == foo   }
-    it { subject.new(simple_accept).preferred.should           == html  }
-    it { subject.new(quality_accept).preferred.should          == html  }
-    it { subject.new(random_accept).preferred.should           == html  }
-    it { subject.new(lower_accept).preferred.should            == foo   }
-    it { subject.new(nil).preferred.should                     == '*/*' }
-    it { subject.new('').preferred.should                      == '*/*' }
-    it { subject.new('text / html').preferred.should           == html  }
-    it { subject.new("#{html};q=0.9,#{json}").preferred.should == json  }
+  let(:default) { '*/*' }
+  let(:default_q) { '*/*;q=0.1' }
+
+  shared_examples_for 'a preferred type' do
+    it { should eq(result) }
   end
 
-#  context 'with mapping' do
-#    before :all do
-#      Zero::Request::Accept.map = {'text/html' => 'html'}
-#    end
-#
-#    after :all do
-#      Zero::Request::Accept.map = {}
-#    end
-#
-#    it { subject.new(html).preferred.should == 'html' }
-#  end
+  context 'with a single type' do
+    let(:types) { [html] }
+    let(:result) { html }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  context 'with two types' do
+    let(:types) { [html, json] }
+    let(:result) { html }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  context 'with multiple types and quality identifier' do
+    let(:types) { ["#{json};q=0.5", html, default_q] }
+    let(:result) { html }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  # this is for mutant - mutant modifies the default quality from 0 to 1
+  # the 0.9 gets translated to a quality of 1, so that the ordering gets
+  # different than before and that is why we have two tests here
+  context 'with quality ordering' do
+    let(:types) { ["#{json};q=0.9", html, default_q] } 
+    let(:result) { html }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  context 'with different kinds of options' do
+    let(:types) { ["#{json};b=foo", html] }
+    let(:result) { json }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  context 'with an empty types' do
+    let(:types) { [] }
+    let(:result) { default }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  context 'with whitespaces' do
+    let(:types) { ['text / html'] }
+    let(:result) { html }
+
+    it_behaves_like 'a preferred type'
+  end
+
+  context 'with nil' do
+    subject { Zero::Request::AcceptType.new(nil).preferred }
+    let(:result) { default }
+
+    it_behaves_like 'a preferred type'
+  end
 end
