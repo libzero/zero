@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     zero (0.2.0)
+      class_options
       tilt
 
 GEM
@@ -18,6 +19,7 @@ GEM
       backports (~> 2.6.4)
       ice_nine (~> 0.6.0)
     backports (2.6.5)
+    class_options (0.0.1)
     coderay (1.0.8)
     descendants_tracker (0.0.1)
     devutils (0.0.1)
@@ -62,13 +64,13 @@ GEM
       rake (>= 0.8, < 11.0)
     ice_nine (0.6.0)
     kramdown (0.14.1)
-    listen (0.7.1)
+    listen (0.7.2)
     lumberjack (1.0.2)
     mbj-inflector (0.0.1)
       backports (~> 2.6.4)
     method_source (0.8.1)
     multi_json (1.5.0)
-    mutant (0.2.14)
+    mutant (0.2.15)
       abstract_type (~> 0.0.2)
       adamantium (~> 0.0.4)
       backports (~> 2.6)
