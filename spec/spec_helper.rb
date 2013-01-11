@@ -33,6 +33,24 @@ class SpecApp
   end
 end
 
+def environment(uri = '/foo', options = {})
+  http_options = options
+  if options.has_key?(:method)
+    http_options['REQUEST_METHOD'] = options[:method].to_s.capitalize
+  end
+  if options.has_key?(:payload)
+    http_options[:input] = options[:payload].
+      map {|key, value| "#{key}=#{value}"}.
+      join('&')
+    http_options['CONTENT_TYPE'] = 'multipart/form-data'
+    http_options['REQUEST_METHOD'] = 'POST' unless http_options['REQUEST_METHOD']
+  end
+  http_options['zero.params.custom'] = options[:custom] if options.has_key?(:custom)
+  http_options.inspect
+
+  Rack::MockRequest.env_for(uri, http_options)
+end
+
 class EnvGenerator
   KEY_REQUEST_METHOD = 'REQUEST_METHOD'
   KEY_REQUEST_GET    = 'GET'
