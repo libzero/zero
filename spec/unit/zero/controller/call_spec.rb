@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe Zero::Controller, '.call' do
-  subject { controller.call(env) }
-  let(:controller) { SpecController }
+  let(:object) { create_controller }
+  subject { object.call(env) }
   let(:env) { EnvGenerator.get('/foo') }
 
   before :each do
-    controller.renderer = Object.new
+    object.renderer = Object.new
+    object.response = Zero::Response
+    object.request  = Zero::Request
   end
 
   it "returns a response" do
@@ -28,8 +30,8 @@ describe Zero::Controller, '.call' do
   context "with the response" do
     let(:response_class) { mock }
     before :each do
-      Zero::Controller.response = response_class
-      response_class.should_receive(:new)
+      object.response = response_class
+      response_class.should_receive(:new).and_return(Zero::Response.new)
     end
 
     after :each do

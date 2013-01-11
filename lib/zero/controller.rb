@@ -5,40 +5,20 @@ module Zero
   # rack compatible controllers. It catches #call and creates a new instance
   # with the environment and calls #render on it.
   class Controller
+    extend ClassOptions::Options
     # initialize a new instance of the controller and call response on it
     def self.call(env)
       new(env).response
     end
 
     # set the class to use for responses
-    def self.response=(response_class)
-      @@response = response_class
-    end
-
-    # return the set response class
-    def self.response
-      @@response ||= Zero::Response
-    end
+    options :response
 
     # set a class to use for requests
-    def self.request=(request_class)
-      @@request = request_class
-    end
-
-    # return the set request class
-    def self.request
-      @@request ||= Zero::Request
-    end
+    options :request
 
     # set the renderer to use in the controller
-    def self.renderer=(renderer)
-      @@renderer = renderer
-    end
-
-    # get the renderer set in the controller
-    def self.renderer
-      @@renderer
-    end
+    options :renderer
 
     # the renderer which can be used to render templates
     attr_reader :renderer

@@ -19,9 +19,12 @@ class SpecTemplateContext
   end
 end
 
-class SpecController < Zero::Controller
-  def process; end
-  def render; @response = [200, {'Content-Type' => 'text/html'}, ['foo']]; end
+def create_controller
+  Class.new(Zero::Controller) do
+    def process
+      @response.body = 'correct'
+    end
+  end
 end
 
 class SpecApp

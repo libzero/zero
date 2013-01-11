@@ -1,13 +1,20 @@
 require 'spec_helper'
 
 describe Zero::Controller, '#render' do
-  subject { Zero::Controller.new(env) }
+  let(:object) { create_controller }
+  subject { object.new(env) }
+
+  before do
+    object.request  = Zero::Request
+    object.response = Zero::Response
+  end
+  
   let(:env) { EnvGenerator.get('/foo') }
   let(:renderer) { mock }
   let(:template) { '/foo' }
 
   before :each do
-    Zero::Controller.renderer = renderer
+    object.renderer = renderer
     renderer.should_receive(:render).with(template,
                                   kind_of(Zero::Request::AcceptType), subject)
   end
