@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:Gibheer/class_options.git
+  remote: https://github.com/Gibheer/class_options.git
   revision: 38cb6da00a9aa613eb7510145345cd5eb3c06614
   specs:
     class_options (0.0.2)

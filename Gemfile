@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'class_options', :git => 'git@github.com:Gibheer/class_options.git'
+gem 'class_options', :git => 'https://github.com/Gibheer/class_options.git'
 
 group :development do
   gem 'devutils-guard'
