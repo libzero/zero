@@ -5,8 +5,8 @@ describe Zero::Controller, '#render' do
   subject { object.new(env) }
 
   before do
-    object.request  = Zero::Request
-    object.response = Zero::Response
+    object.request(Zero::Request)
+    object.response(Zero::Response)
   end
   
   let(:env) { EnvGenerator.get('/foo') }
@@ -14,12 +14,12 @@ describe Zero::Controller, '#render' do
   let(:template) { '/foo' }
 
   before :each do
-    object.renderer = renderer
+    object.renderer(renderer)
     renderer.should_receive(:render).with(template,
                                   kind_of(Zero::Request::AcceptType), subject)
   end
   after :each do
-    Zero::Controller.renderer = nil
+    Zero::Controller.renderer(nil)
   end
 
   it { subject.render(template) }

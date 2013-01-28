@@ -12,13 +12,13 @@ module Zero
     end
 
     # set the class to use for responses
-    options :response
+    accept_options :response
 
     # set a class to use for requests
-    options :request
+    accept_options :request
 
     # set the renderer to use in the controller
-    options :renderer
+    accept_options :renderer
 
     # the renderer which can be used to render templates
     attr_reader :renderer

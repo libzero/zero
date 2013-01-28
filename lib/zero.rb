@@ -2,6 +2,7 @@
 if RUBY_VERSION <= '1.9'
   require 'zero_fix18'
 end
+
 require 'class_options'
 
 module Zero

@@ -6,9 +6,9 @@ describe Zero::Controller, '.call' do
   let(:env) { EnvGenerator.get('/foo') }
 
   before :each do
-    object.renderer = Object.new
-    object.response = Zero::Response
-    object.request  = Zero::Request
+    object.renderer(Object.new)
+    object.response(Zero::Response)
+    object.request(Zero::Request)
   end
 
   it "returns a response" do
@@ -30,12 +30,12 @@ describe Zero::Controller, '.call' do
   context "with the response" do
     let(:response_class) { mock }
     before :each do
-      object.response = response_class
+      object.response(response_class)
       response_class.should_receive(:new).and_return(Zero::Response.new)
     end
 
     after :each do
-      Zero::Controller.response = nil
+      Zero::Controller.response(nil)
     end
 
     it { subject }
