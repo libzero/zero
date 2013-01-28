@@ -2,9 +2,10 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'class_options', :git => 'git@github.com:Gibheer/class_options.git'
+
 group :development do
   gem 'devutils-guard'
-  gem 'devutils-metrics'
 
   group :documentation do
   gem 'devutils-docs'
