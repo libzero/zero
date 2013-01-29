@@ -40,7 +40,7 @@ module Zero
       routes.each do |route, target|
         @routes[
           Regexp.new(
-            route.gsub(VARIABLE_MATCH, VARIABLE_REGEX) + '$')] = target
+            '^' + route.gsub(VARIABLE_MATCH, VARIABLE_REGEX) + '$')] = target
       end
     end
 

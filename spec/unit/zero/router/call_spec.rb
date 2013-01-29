@@ -25,6 +25,13 @@ describe Zero::Router, '#call' do
     it_behaves_like "a sample app"
   end
 
+  context 'with empty path' do
+    let(:routes) {{ '' => wrong_app, '/welcome' => app }}
+    let(:env) { EnvGenerator.get('/welcome') }
+
+    it_behaves_like "a sample app"
+  end
+
   context 'with multiple router' do
     let(:routes) {{ '/foo' => app, '/wrong' => wrong_app }}
     let(:env) { EnvGenerator.get('/foo') }
@@ -40,6 +47,14 @@ describe Zero::Router, '#call' do
   context 'with a route not found' do
     let(:routes) {{ '/foo' => wrong_app, '/foo/bar/baz' => app }}
     let(:env) { EnvGenerator.get('/foo/bar') }
+    let(:result) { ['Not found!'] }
+    let(:status_code) { 404 }
+    it_behaves_like "a sample app"
+  end
+
+  context 'with empty route' do
+    let(:routes) {{ '' => wrong_app }}
+    let(:env) { EnvGenerator.get('/foo') }
     let(:result) { ['Not found!'] }
     let(:status_code) { 404 }
     it_behaves_like "a sample app"
