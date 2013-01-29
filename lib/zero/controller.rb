@@ -5,7 +5,6 @@ module Zero
   # rack compatible controllers. It catches #call and creates a new instance
   # with the environment and calls #render on it.
   class Controller
-    extend ClassOptions::Options
     # initialize a new instance of the controller and call response on it
     def self.call(env)
       new(env).response

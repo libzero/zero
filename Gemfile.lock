@@ -2,13 +2,11 @@ PATH
   remote: .
   specs:
     zero (0.2.0)
-      class_options
       tilt
 
 GEM
   remote: https://rubygems.org/
   specs:
-    class_options (0.0.1)
     coderay (1.0.8)
     devutils (0.0.1)
       rspec
