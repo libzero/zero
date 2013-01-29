@@ -4,22 +4,17 @@ describe Zero::Controller, '#render' do
   let(:object) { create_controller }
   subject { object.new(env) }
 
-  before do
-    object.request(Zero::Request)
-    object.response(Zero::Response)
-  end
-  
   let(:env) { EnvGenerator.get('/foo') }
   let(:renderer) { mock }
   let(:template) { '/foo' }
 
   before :each do
-    object.renderer(renderer)
+    object.renderer = renderer
     renderer.should_receive(:render).with(template,
                                   kind_of(Zero::Request::AcceptType), subject)
   end
   after :each do
-    Zero::Controller.renderer(nil)
+    Zero::Controller.renderer = nil
   end
 
   it { subject.render(template) }

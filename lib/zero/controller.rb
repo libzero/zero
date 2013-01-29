@@ -11,16 +11,17 @@ module Zero
       new(env).response
     end
 
-    # set the class to use for responses
-    accept_options :response
+    # set the renderer to use for rendering
+    def self.renderer=(renderer)
+      @@renderer = renderer
+    end
 
-    # set a class to use for requests
-    accept_options :request
+    # returns the defined renderer
+    def self.renderer
+      @@renderer
+    end
 
-    # set the renderer to use in the controller
-    accept_options :renderer
-
-    # the renderer which can be used to render templates
+    # returns the current renderer
     attr_reader :renderer
 
     # initialize the controller
@@ -29,8 +30,8 @@ module Zero
     # renderer, request and response.
     # @param env [Hash] a rack compatible environment
     def initialize(env)
-      @request  = self.class.request.new(env)
-      @response = self.class.response.new
+      @request  = Zero::Request.new(env)
+      @response = Zero::Response.new
       @renderer = self.class.renderer
     end
 
