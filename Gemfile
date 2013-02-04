@@ -4,6 +4,7 @@ gemspec
 
 group :development do
   gem 'devutils-guard'
+  gem 'devutils-metrics'
 
   group :documentation do
   gem 'devutils-docs'
