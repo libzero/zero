@@ -21,6 +21,10 @@ module Zero
     VARIABLE_MATCH = %r{:(\w+)[^/]?}
     # the replacement string to make it an regex
     VARIABLE_REGEX = '(?<\1>.+?)'
+    # regex part of the beginning of the line
+    REGEX_BEGINNING = '\A'
+    # regex part of the end of the line
+    REGEX_END       = '\Z'
     # environment key to store custom parameters
     ENV_KEY_CUSTOM = 'zero.params.custom'
     # environment key to the path info
@@ -39,8 +43,9 @@ module Zero
       @routes = {}
       routes.each do |route, target|
         @routes[
-          Regexp.new(
-            '^' + route.gsub(VARIABLE_MATCH, VARIABLE_REGEX) + '$')] = target
+          Regexp.new(REGEX_BEGINNING +
+                     route.gsub(VARIABLE_MATCH, VARIABLE_REGEX) +
+                     REGEX_END)] = target
       end
     end
 
