@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Zero::Renderer, '#render' do
   subject { Zero::Renderer.new(template_path, type_map) }
-  let(:template_path) { 'spec/fixtures/templates' }
+  let(:template_path) { 'spec/fixtures/templates/' }
   let(:type_map) {{
     'html' => ['text/html', 'text/xml', '*/*'],
     'json' => ['application/json', 'plain/text']

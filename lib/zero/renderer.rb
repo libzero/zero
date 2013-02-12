@@ -1,3 +1,5 @@
+require 'zero/renderer/template_finder'
+
 module Zero
   # the base renderer for getting render containers
   #
@@ -34,7 +36,7 @@ module Zero
     # @param template_path [String] a string to templates
     # @param type_map [Hash] a map of simple types to complex ones
     def initialize(template_path, type_map = {})
-      @template_path = template_path + '/'
+      @template_path = template_path
       @type_map = type_map
     end
 
@@ -56,23 +58,7 @@ module Zero
     # the wanted template.
     # @return [Self] returns the object
     def read_template_path!
-      # TODO clean up later
-      @templates = {}
-      search_files.each do |file|
-        parts = file.gsub(/#{template_path}/, '').split('.')
-        @templates[parts[0]] ||= {}
-
-        # Set default value
-        types = 'default'
-        # Overwrite default value, if it's set in template path
-        if parts.count > 2 then
-          types = parts[1]
-        end
-
-        read_type(types).each do |type|
-          @templates[parts[0]][type] = file
-        end
-      end
+      @templates = TemplateFinder.new(template_path, @type_map).get_templates
     end
 
     # render a template
@@ -88,32 +74,6 @@ module Zero
     end
 
     private
-
-    # search in `template_path` for templates beginning with `template_name`
-    # @api private
-    # @param template_name [String] the name of the template
-    # @return [#each] a list of all templates found
-    def search_files
-      Dir[template_path + '**/*.*']
-    end
-
-    # gets the type information from a file and converts it to an array of
-    # possible matching types
-    # @api private
-    # @param short_notation [String] a short notation of a type, like `html`
-    # @return [Array] a list of matching types, like `text/html`
-    def read_type(short_notation)
-      to_type_list(type_map[short_notation] || short_notation)
-    end
-
-    # convert a map to an array if it is not one
-    # @api private
-    # @param original_map [Object] the type(s) to convert
-    # @return [Array] a list of objects
-    def to_type_list(original_map)
-      return original_map if original_map.respond_to?(:each)
-      [original_map]
-    end
 
     # get the prepared template for the name and type
     # @api private

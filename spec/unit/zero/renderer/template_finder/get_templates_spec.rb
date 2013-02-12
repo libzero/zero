@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Zero::Renderer, '#read_template_path!' do
-  subject { Zero::Renderer.new(template_path, type_map) }
+describe Zero::Renderer::TemplateFinder, '#initialize' do
+  subject { described_class.new(template_path, type_map) }
   let(:template_path) { 'foo/' }
   let(:file_list) { ['foo/welcome/index.html.erb'] }
 
@@ -17,8 +17,7 @@ describe Zero::Renderer, '#read_template_path!' do
 
   shared_examples_for 'a template loader' do
     it 'creates a template tree' do
-      subject.read_template_path!
-      subject.templates['welcome/index'].should eq(result)
+      subject.get_templates['welcome/index'].should eq(result)
     end
   end
 
