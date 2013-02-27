@@ -24,77 +24,68 @@ module Zero
     # This type map is used to extend the possible renderings for different
     # types, which the clients sends.
     #
-    # @example create a simple renderer
-    #   Renderer.new('app/templates')
+    # @example create a simple renderer with a mapping from html to text/html
+    #   Renderer.new('app/templates', {'html' => 'text/html'})
     #
     # @example create a renderer with a small map
     #   Renderer.new('app', {
     #     'html' => ['text/html', 'application/html+xml'],
     #     'json' => ['application/json', 'application/aweomse+json']
     #   })
+    # @example create a renderer with a specific layout
+    #   Renderer.new('app'. 'layouts/layout', {'html' => 'text/html'})
     #
-    # @param template_path [String] a string to templates
-    # @param type_map [Hash] a map of simple types to complex ones
-    def initialize(template_path, type_map = {})
-      @template_path = template_path
-      @type_map = type_map
+    # @param path [String] the relative path to templates
+    # @param layout [String] the key of the layouts
+    # @param types [Hash{String => Array}] a map of short type names to long ones
+    def initialize(path, layout = 'layout', types)
+      @path   = path
+      @layout = layout
+      @types  = types
     end
 
     # returns the hash of type conversions
     # @return [Hash] type conversion
-    attr_reader :type_map
+    attr_reader :types
+    # returns the key for layout files
+    # @return [String] the key for layouts
+    attr_reader :layout
     # get the path to the templates
     # @return [String] the base template path
-    attr_reader :template_path
+    attr_reader :path
     # get the tree of templates
+    #
+    # This function returns all templates with their keys.
     # @api private
     # @return [Hash] the template tree
-    attr_reader :templates
-
-    # load the template tree
-    #
-    # This method gets all templates in the `template_path` and builds an
-    # internal tree structure, where templates and types direct the request to
-    # the wanted template.
-    # @return [Self] returns the object
-    def read_template_path!
-      @templates = TemplateFinder.new(template_path, @type_map).get_templates
+    def templates
+      @templates ||= TemplateFinder.new(path, types)
     end
 
     # render a template
     #
-    # This method will render the given template, based on the type in the given
-    # context.
-    # @param name [String] the name of the template
-    # @param type [Array] a list of accept types used to find the template
-    # @param context [Object] the context in which to evaluate the template
-    # @return [String] the rendered content
-    def render(name, type, context)
-      template(name, type).render(context)
+    # This method will render the template according to the requested types.
+    # @param template [String] the template to render
+    # @param types [Array<String>] a list of types requested to render
+    # @param context [Object] any object to use for rendering
+    # @return [String] the result of rendering
+    def render(template, types, context)
+      unless templates.exist_for_types?(layout, types)
+        return load_template(template, types).render(context) 
+      end
+      load_layout_template(types).render(context) do
+        load_template(template, types).render(context)
+      end
     end
 
     private
 
-    # get the prepared template for the name and type
-    # @api private
-    # @param name [String] the name of the template
-    # @param types [Array] the types for the template
-    # @return [Tilt::Template] a prepared tilt template
-    def template(name, types)
-      if templates.has_key? name
-        types.each do |type|
-          template = templates[name][type]
-          unless template.nil?
-            # TODO Will be implemented later
-            # return template if template.kind_of?(Tilt::Template)
-            return Tilt.new(template)
-          end
-        end
-        raise ArgumentError.new(
-          "No template found for any of this types #{types.join ', '}!"
-        )
-      end
-      raise ArgumentError.new "No template found for '#{name}'!"
+    def load_template(template, types)
+      templates.get(template, types)
+    end
+
+    def load_layout_template(types)
+      templates.get(layout, types)
     end
   end
 end
