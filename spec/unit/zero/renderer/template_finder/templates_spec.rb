@@ -17,7 +17,7 @@ describe Zero::Renderer::TemplateFinder, '#initialize' do
 
   shared_examples_for 'a template loader' do
     it 'creates a template tree' do
-      subject.get_templates['welcome/index'].should eq(result)
+      subject.templates['welcome/index'].should eq(result)
     end
   end
 
@@ -54,12 +54,5 @@ describe Zero::Renderer::TemplateFinder, '#initialize' do
     } }
 
     it_behaves_like 'a template loader'
-  end
-
-  it 'creates an empty templates list without templates in path' do
-    subject = Zero::Renderer.new("bar/", {})
-    subject.read_template_path!
-
-    subject.templates.should eq({})
   end
 end

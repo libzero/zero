@@ -61,6 +61,9 @@ module Zero
       # @returns [Regex] the regex built from the path
       attr_reader :path_regex
 
+      # returns all templates found
+      attr_reader :templates
+
       # initialize a new template finder
       #
       # @example
@@ -75,6 +78,72 @@ module Zero
         @path = path
         @type_map  = sanity_map(type_map)
         @path_regex = /#{path}/
+        @templates = load_templates
+      end
+
+      # get the template
+      #
+      # This function returns the template when found.
+      # @raise ArgumentError when the template was not found the type
+      # @param template [String] the template to return
+      # @param type [String] the type to return the template for
+      # @return [Tilt::Template] the tilt template
+      def get(template, types)
+        raise ArgumentError.new(<<-ERROR) unless exist?(template)
+          Template '#{template}' does not exist!
+        ERROR
+        types.each do |type|
+          return Tilt.new(get_template(template, type)) if has_template?(template, type)
+        end
+        raise ArgumentError.new(<<-ERROR)
+          Template '#{template}' not found!
+            types: #{types.inspect}
+        ERROR
+      end
+
+      # check if a specific template exists
+      #
+      # This function checks for the existance of the specifiec template.
+      # @param template [String] the template to find
+      # @returns [Boolean] true when template was found
+      def exist?(template)
+        templates.has_key?(template)
+      end
+
+      # check if the template exists for the specified types
+      #
+      # This function takes the template and searches for any template for the
+      # types.
+      # @param template [String] the template to look for
+      # @param types [Array<String>] the types to test
+      # @return [Boolean] true when a template is found, else false
+      def exist_for_types?(template, types)
+        return false unless exist?(template)
+        types.each do |type|
+          return has_template?(template, type)
+        end
+        false
+      end
+
+      private
+
+      # checks if the template has support for the type
+      #
+      # @param template [String] the template to look for
+      # @param type [String] the type to look for
+      # @return [Boolean] true when the template was found
+      def has_template?(template, type)
+        templates[template].has_key?(type)
+      end
+
+      # returns the template for the type
+      #
+      # This function returns the template for the specified type.
+      # @param template [String] the template to return
+      # @param type [String] the type to return the template for
+      # @return [String] the filename for the template
+      def get_template(template, type)
+        templates[template][type]
       end
 
       # traverses the template path to gather all templates
@@ -82,17 +151,16 @@ module Zero
       # This function traverses the template path, collects and sorts all
       # templates into the target types given at initialization.
       # @return [Hash] the map of type to template
-      def get_templates
-        result = Hash.new {|hash, key| hash[key] = {} }
+      def load_templates
+        result = {}
 
         search_files.each do |file|
           key, value = add_template(file)
+          result[key] = {} unless result.has_key?(key)
           result[key] = result[key].merge(value)
         end
         result
       end
-
-      private
 
       # returns a list of files found at @path
       #
