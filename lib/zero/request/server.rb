@@ -36,6 +36,13 @@ module Zero
       # get the server software
       # @return [String] the server software name
       attr_reader :software
+
+      # returns the full name of the server
+      # @return [String] the full address to the server
+      def name
+        return @name if @name
+        @name = protocol + '://' + hostname + ':' + port.to_s
+      end
     end
   end
 end
