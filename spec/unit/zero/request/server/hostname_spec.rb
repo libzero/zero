@@ -6,4 +6,3 @@ describe Zero::Request::Server, '#hostname' do
   let(:env) { EnvGenerator.get('/foo', {'SERVER_NAME' => hostname}) }
   its(:hostname) { should be(hostname) }
 end
-
