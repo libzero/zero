@@ -31,6 +31,25 @@ describe Zero::Request::Parameter, '#payload' do
     its(:payload) { should == {'bar' => 'foo bar'} }
   end
 
+  context 'with multiple parameters' do
+    let(:env) do
+      EnvGenerator.post('/foo', {
+        :input => 'bar=foo&foo=bar', 'CONTENT_TYPE' => 'multipart/form-data'
+      })
+    end
+    its(:payload) { should == {'foo' => 'bar', 'bar' => 'foo'} }
+  end
+
+  context 'with a list' do
+    let(:env) do
+      EnvGenerator.post('/foo', {
+        :input => 'bar[]=foo&bar[]=bar',
+        'CONTENT_TYPE' => 'multipart/form-data'
+      })
+    end
+    its(:payload) { should == {'bar[]' => ['foo', 'bar']} }
+  end
+
   # TODO behaves like this, but is this really good like this?
   context 'with a post body and content type application/json' do
     let(:env) do

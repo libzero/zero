@@ -21,6 +21,8 @@ module Zero
         'application/x-www-form-urlencoded',
         'multipart/form-data'
       ].to_set
+      # match keys for list attribute
+      REGEX_MATCH_LIST = /\[\]$/
 
       # get the query parameters
       attr_reader :query
@@ -95,7 +97,16 @@ module Zero
       # @param query [String] the query string
       # @return [Hash] the key/valuie pairs
       def parse_string(query)
-        Hash[URI.decode_www_form(query)]
+        result = {}
+        URI.decode_www_form(query).each do |p|
+          if p.first.match(REGEX_MATCH_LIST)
+            result[p.first] ||= []
+            result[p.first] << p.last
+          else
+            result[p.first] = p.last
+          end
+        end
+        result
       end
     end
   end
