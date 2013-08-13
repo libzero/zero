@@ -50,6 +50,16 @@ describe Zero::Request::Parameter, '#payload' do
     its(:payload) { should == {'bar[]' => ['foo', 'bar']} }
   end
 
+  context 'with encoding in the content type' do
+    let(:env) do
+      EnvGenerator.post('/foo', {
+        :input => 'foo=bar',
+        'CONTENT_TYPE' => 'multipart/form-data; charset=UTF-8'
+      })
+    end
+    its(:payload) { should == {'foo' => 'bar'} }
+  end
+
   # TODO behaves like this, but is this really good like this?
   context 'with a post body and content type application/json' do
     let(:env) do

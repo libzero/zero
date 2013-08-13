@@ -16,6 +16,9 @@ module Zero
       ENV_KEY_CUSTOM = 'zero.params.custom'
       # the key for the content type
       ENV_KEY_CONTENT_TYPE = 'CONTENT_TYPE'
+      # the separator of the type and charset
+      #   for example multipart/form-data; charset=UTF-8
+      CONTENT_TYPE_SEPERATOR = ';'
       # all content types which used for using the body as a parameter input
       PAYLOAD_CONTENT_TYPES = [
         'application/x-www-form-urlencoded',
@@ -87,10 +90,18 @@ module Zero
       # extracts the key value pairs from the body
       # @return Hash all key value pairs from the payload
       def extract_payload_params(environment)
-        unless PAYLOAD_CONTENT_TYPES.include?(environment[ENV_KEY_CONTENT_TYPE])
+        unless matches_payload_types?(environment[ENV_KEY_CONTENT_TYPE])
           return {}
         end
         parse_string(environment[ENV_KEY_PAYLOAD].read)
+      end
+
+      # check if the content-type matches one of the payload types
+      # @param [String] type - the content type string
+      # @return Boolean true if it matches
+      def matches_payload_types?(type)
+        return false if type.nil?
+        PAYLOAD_CONTENT_TYPES.include?(type.split(CONTENT_TYPE_SEPERATOR)[0])
       end
 
       # parse the query string like input to a hash
