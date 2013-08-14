@@ -68,7 +68,8 @@ module Zero
     # get the method of the request
     # @return [Symbol] the symbol representation of the method
     def method
-      @method ||= @env[CONST_REQUEST_METHOD].downcase.to_sym
+      return @method if @method
+      @method = extract_method
     end
     # is the method 'GET'?
     # @return [Boolean] true if this is a get request
@@ -103,5 +104,32 @@ module Zero
     # constant for the request method key
     # @api private
     CONST_REQUEST_METHOD = 'REQUEST_METHOD'
+    # regex to match for valid http methods
+    CONST_VALID_METHODS  = /\A(get|post|put|delete|head|link|unlink|patch)\Z/
+    # constant for post
+    CONST_POST           = 'post'
+    # constant for the method keyword
+    CONST_METHOD         = '_method'
+
+    # this function tries to figure out what method the request used
+    #
+    # The problem with extracting the request method is, that every client out
+    # there can speak all methods (get, post, put, whatever) but not browsers.
+    # When sending a form, they can only send get or post forms, but not put
+    # or delete, which makes them a pain to use. So instead an override was
+    # introduced in rails and other frameworks to support `_method` in the post
+    # payload.
+    # So this function does essentially the same, so please do not remove it
+    # until browsers learned how to do it.
+    # @return [Symbol] the extracted method
+    def extract_method
+      method = @env[CONST_REQUEST_METHOD].downcase
+      return method.to_sym unless method == CONST_POST
+      if params.payload.has_key?(CONST_METHOD)
+        method = params.payload[CONST_METHOD].downcase
+        return method.to_sym if CONST_VALID_METHODS.match(method)
+      end
+      CONST_POST.to_sym
+    end
   end
 end
