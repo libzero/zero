@@ -13,38 +13,9 @@ describe Zero::Renderer, '#render' do
   let(:binding) { SpecTemplateContext.new('foo') }
 
   context 'with default layout' do
-    it 'returns a tilt template' do
-      subject.render('index', html_types, binding).should be_kind_of(String)
-    end
-
-    it 'renders html content' do
-      subject.render('index', html_types, binding).should match('success')
-    end
-
-    it 'returns a tilt template for different types' do
-      subject.render('index', json_types, binding).should be_kind_of(String)
-    end
-
-    it 'renders json content' do
-      subject.render('index', json_types, binding).should match("{text: 'success'}")
-    end
-
-    it 'returns an ArgumentError, if given template does not exist' do
-      expect {
-        subject.render('foobar', html_types, binding)
-      }.to raise_error(ArgumentError, /Template 'foobar' does not exist/)
-    end
-
-    it 'returns an ArgumentError, if no template fits types' do
-      expect {
-        subject.render('index', foo_types, binding)
-      }.to raise_error(
-        ArgumentError, /Template 'index' not found/)
-    end
-
-    it 'uses the context' do
-      subject.render('context', html_types, binding).should match('foo')
-
+    it 'renders the template' do
+      expect(subject.render('index', html_types, binding)
+            ).to match(/layoutfile[\n]*success/)
     end
   end
 

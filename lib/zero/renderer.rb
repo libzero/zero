@@ -71,18 +71,25 @@ module Zero
     # @return [String] the result of rendering
     def render(template, types, context)
       unless templates.exist_for_types?(layout, types)
-        return load_template(template, types).render(context) 
+        return render_partial(template, types, context)
       end
       load_layout_template(types).render(context) do
-        load_template(template, types).render(context)
+        render_partial(template, types, context)
       end
+    end
+
+    # render a template without layout
+    #
+    # This can be used to render a template without using a layout.
+    # @param template [String] the template to render
+    # @param types [Array<String>] a list of types requested to render
+    # @param context [Object] any object to use for rendering
+    # @return [String] the result of rendering
+    def render_partial(template, types, context)
+      templates.get(template, types).render(context)
     end
 
     private
-
-    def load_template(template, types)
-      templates.get(template, types)
-    end
 
     def load_layout_template(types)
       templates.get(layout, types)
