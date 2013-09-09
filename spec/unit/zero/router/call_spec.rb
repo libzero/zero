@@ -44,6 +44,22 @@ describe Zero::Router, '#call' do
     it_behaves_like "a sample app"
   end
 
+  context 'with nested variable routes' do
+    let(:routes) do
+      { '/' => wrong_app, '/foo/:id' => app, '/foo/:id/bar' => wrong_app }
+    end
+    let(:env) { EnvGenerator.get('/foo/23') }
+    it_behaves_like "a sample app"
+  end
+
+  context 'with nested routes and variable in the middle' do
+    let(:routes) do
+      { '/' => wrong_app, '/foo/:id' => wrong_app, '/foo/:id/bar' => app }
+    end
+    let(:env) { EnvGenerator.get('/foo/23/bar') }
+    it_behaves_like "a sample app"
+  end
+
   context 'with a route not found' do
     let(:routes) {{ '/foo' => wrong_app, '/foo/bar/baz' => app }}
     let(:env) { EnvGenerator.get('/foo/bar') }
@@ -71,5 +87,20 @@ describe Zero::Router, '#call' do
     let(:result) { ['bar'] }
 
     it_behaves_like 'a sample app'
+  end
+
+  context 'with parameters and nested routes' do
+    let(:routes) do
+      { '/' => wrong_app, '/foo/:id' => app, '/foo/:id/bar' => wrong_app }
+    end
+    let(:env) { EnvGenerator.get('/foo/bar') }
+    let(:app) do
+      lambda do |env|
+        [200, content_type, [Zero::Request.new(env).params['id']]]
+      end
+    end
+    let(:result) { ['bar'] }
+
+    it_behaves_like "a sample app"
   end
 end

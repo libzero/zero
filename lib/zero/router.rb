@@ -20,7 +20,7 @@ module Zero
     # match for variables in routes
     VARIABLE_MATCH = %r{:(\w+)[^/]?}
     # the replacement string to make it an regex
-    VARIABLE_REGEX = '(?<\1>.+?)'
+    VARIABLE_REGEX = '(?<\1>[\w]+?)'
     # regex part of the beginning of the line
     REGEX_BEGINNING = '\A'
     # regex part of the end of the line
@@ -41,7 +41,7 @@ module Zero
     # @param routes [Hash] a map of URLs to rack compatible applications
     def initialize(routes)
       @routes = {}
-      routes.each do |route, target|
+      routes.to_a.sort_by(&:first).reverse.each do |route, target|
         @routes[
           Regexp.new(REGEX_BEGINNING +
                      route.gsub(VARIABLE_MATCH, VARIABLE_REGEX) +
