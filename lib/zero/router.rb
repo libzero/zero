@@ -20,7 +20,7 @@ module Zero
     # match for variables in routes
     VARIABLE_MATCH = %r{:(\w+)[^/]?}
     # the replacement string to make it an regex
-    VARIABLE_REGEX = '(?<\1>[\w]+?)'
+    VARIABLE_REGEX = '(?<\1>[\w-]+?)'
     # regex part of the beginning of the line
     REGEX_BEGINNING = '\A'
     # regex part of the end of the line

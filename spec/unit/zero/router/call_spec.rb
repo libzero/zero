@@ -103,4 +103,17 @@ describe Zero::Router, '#call' do
 
     it_behaves_like "a sample app"
   end
+
+  context 'with a dash in the variable' do
+    let(:routes) { {'/:id' => app} }
+    let(:env) { EnvGenerator.get('/foo-bar') }
+    let(:app) do
+      lambda do |env|
+        [200, content_type, [Zero::Request.new(env).params['id']]]
+      end
+    end
+    let(:result) { ['foo-bar'] }
+
+    it_behaves_like "a sample app"
+  end
 end
