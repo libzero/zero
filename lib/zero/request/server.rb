@@ -46,7 +46,6 @@ module Zero
         @port     = environment[KEY_SERVER_PORT].to_i
         @protocol = environment[KEY_SERVER_PROTOCOL]
         @software = environment[KEY_SERVER_SOFTWARE]
-        p environment[KEY_HTTPS]
         if KEY_HTTPS_ON_SWITCH.include?(environment[KEY_HTTPS])
           @is_https = true
         else
