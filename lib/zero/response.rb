@@ -1,8 +1,11 @@
 module Zero
   # This is the representation of a response
   class Response
+    # the status code of the response
     attr_reader :status
+    # the body of the response
     attr_reader :body
+    # set or get current headers
     attr_accessor :header
 
     # Constructor
