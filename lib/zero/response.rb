@@ -1,7 +1,5 @@
 module Zero
-
   # This is the representation of a response
-  #
   class Response
     attr_reader :status
     attr_reader :body
@@ -93,6 +91,5 @@ module Zero
       self.status = status
       self.header['Location'] = location
     end
-
   end
 end
