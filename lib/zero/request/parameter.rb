@@ -16,6 +16,8 @@ module Zero
       ENV_KEY_CUSTOM = 'zero.params.custom'
       # the key for the content type
       ENV_KEY_CONTENT_TYPE = 'CONTENT_TYPE'
+      # the key to cookie heaven
+      ENV_KEY_COOKIES = 'HTTP_COOKIE'
       # the separator of the type and charset
       #   for example multipart/form-data; charset=UTF-8
       CONTENT_TYPE_SEPERATOR = ';'
@@ -26,6 +28,10 @@ module Zero
       ].to_set
       # match keys for list attribute
       REGEX_MATCH_LIST = /\[\]$/
+      # split cookie header on =
+      REGEX_SPLIT_COOKIE = /=/
+      # split cookie seperator
+      REGEX_SPLIT_COOKIES = /;\s*/
 
       # get the query parameters
       attr_reader :query
@@ -38,6 +44,9 @@ module Zero
       # get all custom parameters
       attr_reader :custom
 
+      # get all cookie parameters
+      attr_reader :cookie
+
       # creates a new parameter instance
       #
       # This should never be called directly, as it will be generated for you.
@@ -47,6 +56,7 @@ module Zero
       def initialize(environment)
         @query   = extract_query_params(environment)
         @payload = extract_payload_params(environment)
+        @cookie  = extract_cookie_params(environment)
         if environment.has_key?(ENV_KEY_CUSTOM)
           @custom = environment[ENV_KEY_CUSTOM]
         else
@@ -66,7 +76,7 @@ module Zero
       # @param key [String] a key to look for
       # @return [String] the value of the key
       def [](key)
-        @custom[key] || @payload[key] || @query[key]
+        @custom[key] || @payload[key] || @query[key] || @cookie[key]
       end
 
       # set a custom key/value pair
@@ -94,6 +104,15 @@ module Zero
           return {}
         end
         parse_string(environment[ENV_KEY_PAYLOAD].read)
+      end
+
+      # extracts the cookie key value pairs
+      # @return Hash all key value pairs from cookies
+      def extract_cookie_params(environment)
+        return {} unless environment.has_key?(ENV_KEY_COOKIES)
+        r = Hash[environment[ENV_KEY_COOKIES].split(REGEX_SPLIT_COOKIES).map do |e|
+          e.split(REGEX_SPLIT_COOKIE)
+        end]
       end
 
       # check if the content-type matches one of the payload types
