@@ -69,5 +69,12 @@ describe Zero::Response do
       value[1].should eq({})  # Headers
       value[2].should eq([])  # Body
     end
+
+    it "adds the cookie to the headers" do
+      key = 'key'
+      value = 'value'
+      subject.cookie.add_crumb(key, value)
+      expect(subject.to_a[1]['Set-Cookie']).to eq("#{key}=#{value}")
+    end
   end
 end
