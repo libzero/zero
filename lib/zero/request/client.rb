@@ -5,7 +5,7 @@ module Zero
       # the key for the ip of the client
       KEY_REMOTE_ADDR = 'REMOTE_ADDR'
       # in proxy setups, this is the real address of the client
-      KEY_FORWARDED_FOR = 'X_FORWARDED_FOR'
+      KEY_FORWARDED_FOR = 'HTTP_X_FORWARDED_FOR'
       # the key for the hostname
       KEY_REMOTE_HOST = 'REMOTE_HOST'
       # the key for the user agent

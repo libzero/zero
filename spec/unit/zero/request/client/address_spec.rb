@@ -16,7 +16,7 @@ describe Zero::Request::Client, '#address' do
     let(:env) do
       {
         'REMOTE_ADDR' => proxy,
-        'X_FORWARDED_FOR' => address
+        'HTTP_X_FORWARDED_FOR' => address
       }
     end
 
