@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'rspec/its'
 
 if ENV['SIMPLECOV']
   require 'simplecov'

@@ -5,7 +5,7 @@ describe Zero::Controller, '#render' do
   subject { object.new(env) }
 
   let(:env) { EnvGenerator.get('/foo') }
-  let(:renderer) { mock }
+  let(:renderer) { Object.new }
   let(:template) { '/foo' }
 
   before :each do
