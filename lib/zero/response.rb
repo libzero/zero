@@ -1,4 +1,4 @@
-require 'zero/response/cookie'
+require_relative 'response/cookie'
 
 module Zero
   # This is the representation of a response

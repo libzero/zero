@@ -1,4 +1,4 @@
-require 'zero/request/accept_type'
+require_relative 'accept_type'
 
 module Zero
   class Request

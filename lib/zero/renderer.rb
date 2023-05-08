@@ -1,4 +1,4 @@
-require 'zero/renderer/template_finder'
+require_relative 'renderer/template_finder'
 
 module Zero
   # the base renderer for getting render containers

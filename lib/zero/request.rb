@@ -1,7 +1,7 @@
-require 'zero/request/accept'
-require 'zero/request/client'
-require 'zero/request/parameter'
-require 'zero/request/server'
+require_relative 'request/accept'
+require_relative 'request/client'
+require_relative 'request/parameter'
+require_relative 'request/server'
 
 module Zero
   # This class wraps around a rack environment for easier access to all data.
