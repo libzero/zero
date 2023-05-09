@@ -9,6 +9,10 @@ describe Zero::Router, '#call' do
   let(:wrong_app) do
     lambda {|env| [200, {'Content-Type' => 'text/html'}, 'Wrong'] }
   end
+
+  let(:not_found_app) do
+    lambda {|env| [404, {'Content-Type' => 'text/html'}, ['Wrong way!']] }
+  end
   let(:app) { SpecApp }
 
   shared_examples_for 'a sample app' do
@@ -39,7 +43,7 @@ describe Zero::Router, '#call' do
   end
 
   context 'with nested routes' do
-    let(:routes) {{ '/' => wrong_app, '/foo' => app, '/foo/bar' => wrong_app }}
+    let(:routes) {{ '/foo/bar' => wrong_app, '/foo' => app, '/' => wrong_app }}
     let(:env) { EnvGenerator.get('/foo') }
     it_behaves_like "a sample app"
   end
@@ -72,6 +76,14 @@ describe Zero::Router, '#call' do
     let(:routes) {{ '' => wrong_app }}
     let(:env) { EnvGenerator.get('/foo') }
     let(:result) { ['Not found!'] }
+    let(:status_code) { 404 }
+    it_behaves_like "a sample app"
+  end
+
+  context 'with a route not found, but 404 error route set' do
+    let(:routes) {{ '/foo/bar/baz' => app, 404 => not_found_app }}
+    let(:env) { EnvGenerator.get('/foo/bar') }
+    let(:result) { ['Wrong way!'] }
     let(:status_code) { 404 }
     it_behaves_like "a sample app"
   end

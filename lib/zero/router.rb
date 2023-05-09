@@ -16,6 +16,14 @@ module Zero
   #   router = Zero::Router.new(
   #     '/foo/:id' => FooController
   #   )
+  #
+  #  # @example of a simple router
+  #  #  which supports an extra controller for a 404 error page
+  #   router = Zero::Router.new(
+  #     '/' => WelcomeController,
+  #     404 => NotFoundController
+  #   )
+  #
   class Router
     # match for variables in routes
     VARIABLE_MATCH = %r{:(\w+)[^/]?}
@@ -41,7 +49,14 @@ module Zero
     # @param routes [Hash] a map of URLs to rack compatible applications
     def initialize(routes)
       @routes = {}
-      routes.to_a.sort_by(&:first).reverse.each do |route, target|
+
+      routes.to_a.sort_by{|x| x[0].to_s}.reverse.each do |route, target|
+        # Support for special error handling
+        if route.is_a? Integer
+          @routes[route] = target
+          next
+        end
+
         @routes[
           Regexp.new(REGEX_BEGINNING +
                      route.gsub(VARIABLE_MATCH, VARIABLE_REGEX) +
@@ -58,6 +73,9 @@ module Zero
     def call(env)
       env[ENV_KEY_CUSTOM] ||= {}
       @routes.each do |route, target|
+        # Skip all routes, which keys are Integers
+        next if route.is_a? Integer
+
         match = route.match(env[ENV_KEY_PATH_INFO])
         if match
           match.names.each_index do |i|
@@ -66,6 +84,10 @@ module Zero
           return target.call(env)
         end
       end
+      # If no route is found, we call the target 404 error route, if it's set
+      return @routes[404].call(env) unless @routes[404].nil?
+
+      # If no target for the 404 error is set, we return a default message
       [404, {'Content-Type' => 'text/html'}, ['Not found!']]
     end
   end
