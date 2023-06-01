@@ -5,11 +5,11 @@ describe Zero::Response do
   subject { Zero::Response.new() }
 
   describe '#redirect' do
-    it "sets the status to 302 and the given Location URL in header" do
+    it "sets the status to 303 and the given Location URL in header" do
       subject.redirect 'http://foo.bar/relocated/thingy'
       value = subject.to_a
 
-      value[0].should eq(302)
+      value[0].should eq(303)
       value[1]['Location'].should eq('http://foo.bar/relocated/thingy')
     end
 
